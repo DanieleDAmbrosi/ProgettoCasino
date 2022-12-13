@@ -4,6 +4,8 @@ import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import src.Casino.lib.Utility;
+
 /**
  * This class manages the Server
  */
@@ -47,7 +49,7 @@ public class Server{
      */
     public static void main(String[] args){
         //Server setup from CLI
-        final int N_ARGS = 2; //the number of the args needed
+        final int N_ARGS = 6; //the number of the args needed
 
         HashMap<String, String> hashMap = new HashMap<>();
 
@@ -57,7 +59,7 @@ public class Server{
         while(i < args.length && args[i].startsWith("-")){
             arg = args[i++];
 
-            if(i < args.length) hashMap.put(arg.substring(1), args[i++]);
+            if(i < args.length) hashMap.put(args[i++], arg.substring(1));
             else System.err.println("-" + arg + " requires an argument");
         }
 
@@ -74,7 +76,8 @@ public class Server{
         try {
             serverSocket = new ServerSocket(PORT);
         } catch (Exception e) {
-            System.err.println("Connection Failed");
+            System.err.println(String.format("Connection Failed %s", Utility.getLogTime()));
+            e.printStackTrace();
         }
 
         server.run(serverSocket);
@@ -96,7 +99,7 @@ public class Server{
                 System.err.println("Usage: [-PORT] port --- [-PORT] has to be an int");
             }
             PORT = iPort;
-            System.out.println("The port has been chosen correctly!!!");
+            System.out.println(String.format("The port has been chosen correctly %s", Utility.getLogTime()));
         }
         else System.err.println("Usage: [-PORT] port --- [-PORT] param missing");
     }
