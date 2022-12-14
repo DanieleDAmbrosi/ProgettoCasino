@@ -1,6 +1,10 @@
-package com.casino;
+package com.casino.server;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -13,16 +17,11 @@ public class Server{
      * 
      */
     private static int PORT;
-    /**
-     * This attribute is the array of Lobbies whic are playing the game
-     * 
-     */
-    private static final ArrayList<Lobby> ListLobbies = new ArrayList<>();
-    /**
-     * This attribute is the array of Lobbies which are waiting to get in the game
-     * 
-     */
-    private static final ArrayList<Lobby> WaitingListLobbies = new ArrayList<>();
+    private static final ArrayList<ClientConnectionHandler> WaitingList = new ArrayList<>();
+    private static final ArrayList<ClientConnectionHandler> ClientList = new ArrayList<>();
+
+    private final Object LOCKWaitingList = new Object();
+    private final Object LOCKClientList = new Object();
     /**
      * This is the constructor of the Server class
      * 
@@ -37,9 +36,50 @@ public class Server{
      * @param serverSocket the socket where clients connect
      */
     public void run(ServerSocket serverSocket) {
-        //TODO:
-    }
+        try {
+            while(true){
+                Socket clientSocket;
+                
+                clientSocket = serverSocket.accept();
+                System.out.println("Client " + clientSocket + " is connected");
 
+                ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
+                ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
+
+                ClientConnectionHandler client = new ClientConnectionHandler(PORT, out, in, clientSocket);
+
+                WaitingList.add(client);
+
+                client.start();
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }finally{
+            try {
+                if(serverSocket != null){
+                    stopAllClients();
+                    serverSocket.close();
+                }
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+    /**
+     * Force all Clients to close 
+     */
+    public void stopAllClients(){
+        synchronized(LOCKClientList){
+            if(WaitingList.size() > 0)
+                for(ClientConnectionHandler client : WaitingList)
+                    client.forceClose();
+            else
+                for(ClientConnectionHandler client : ClientList)
+                    client.forceClose();
+            ClientList.clear();
+            WaitingList.clear();
+        }
+    }
     /**
      * Setups the server and launches it
      * 
