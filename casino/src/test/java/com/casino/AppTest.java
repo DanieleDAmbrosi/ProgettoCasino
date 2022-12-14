@@ -1,4 +1,4 @@
-package casino.src.test.java.com.casino;
+package com.casino;
 
 import static org.junit.Assert.assertTrue;
 

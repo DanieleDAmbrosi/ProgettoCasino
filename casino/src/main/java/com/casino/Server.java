@@ -1,4 +1,4 @@
-package casino.src.main.java.com.casino;
+package com.casino;
 
 /**
  * Hello world!
