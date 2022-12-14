@@ -17,12 +17,12 @@ public class Server{
      * This attribute is the array of Lobbies whic are playing the game
      * 
      */
-    private static final ArrayList<Object> ListLobbies = new ArrayList<>();
+    private static final ArrayList<Lobby> ListLobbies = new ArrayList<>();
     /**
      * This attribute is the array of Lobbies which are waiting to get in the game
      * 
      */
-    private static final ArrayList<Object> WaitingListLobbies = new ArrayList<>();
+    private static final ArrayList<Lobby> WaitingListLobbies = new ArrayList<>();
     /**
      * This is the constructor of the Server class
      * 
