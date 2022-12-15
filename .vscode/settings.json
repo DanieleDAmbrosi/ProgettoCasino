@@ -1,29 +1,9 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive",
     "java.configuration.runtimes": [
         {
-            "name": "JavaSE-11",
-            "path": "C:\\Program Files\\Java\\jdk-19",
-            "default": true
-        }
-    ],
-    "java.jdt.ls.java.home": "C:\\Program Files\\Java\\jdk-19",
-    "terminal.integrated.defaultProfile.windows": "PowerShell",
-    "terminal.integrated.fontFamily": "Consolas",
-    "maven.executable.path": "C:\\maven-3.6.3\\bin\\mvn",
-    "maven.terminal.useJavaHome": true,
-    "maven.terminal.customEnv": [
-        {
-            "environmentVariable": "JAVA_HOME",
-            "value": "C:\\Program Files\\Java\\jdk-19"
+          "name": "JavaSE-17",
+          "path": "/usr/lib/jvm/java-17-openjdk-amd64"
         },
-        {
-            "environmentVariable": "M2_HOME",
-            "value": "C:\\maven-3.6.3\\"
-        },
-        {
-            "environmentVariable": "M2",
-            "value": "C:\\maven-3.6.3\\bin"
-        },
-    ]
+      ],
+      "maven.view": "hierarchical"
 }
