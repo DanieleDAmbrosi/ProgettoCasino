@@ -45,7 +45,7 @@ public class ClientConnectionHandler extends Thread{
                 running = false;
             }
 
-            if(message != null) message.accept(new Visitor());
+            if(message != null) message.accept(new Visitor(outputStream));
         }
         forceClose();
     }

@@ -1,5 +1,4 @@
 com\casino\comm\messages\Message.class
-com\casino\comm\messages\Visitable.class
 com\casino\server\ClientConnectionHandler.class
 com\casino\server\Server.class
 com\casino\comm\messages\AskWantToPlayMessage.class
