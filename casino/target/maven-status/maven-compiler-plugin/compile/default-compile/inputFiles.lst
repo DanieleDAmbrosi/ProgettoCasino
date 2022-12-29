@@ -1,6 +1,6 @@
-/home/debian/Documents/GitHub/ProgettoCasino/casino/src/main/java/com/casino/comm/visitors/Visitor.java
-/home/debian/Documents/GitHub/ProgettoCasino/casino/src/main/java/com/casino/comm/messages/Message.java
-/home/debian/Documents/GitHub/ProgettoCasino/casino/src/main/java/com/casino/server/Server.java
-/home/debian/Documents/GitHub/ProgettoCasino/casino/src/main/java/com/casino/comm/messages/Visitable.java
-/home/debian/Documents/GitHub/ProgettoCasino/casino/src/main/java/com/casino/comm/messages/AskWantToPlayMessage.java
-/home/debian/Documents/GitHub/ProgettoCasino/casino/src/main/java/com/casino/server/ClientConnectionHandler.java
+C:\Users\danie\Documents\GitHub\ProgettoCasino\casino\src\main\java\com\casino\server\Server.java
+C:\Users\danie\Documents\GitHub\ProgettoCasino\casino\src\main\java\com\casino\comm\messages\AskWantToPlayMessage.java
+C:\Users\danie\Documents\GitHub\ProgettoCasino\casino\src\main\java\com\casino\comm\messages\Visitable.java
+C:\Users\danie\Documents\GitHub\ProgettoCasino\casino\src\main\java\com\casino\comm\visitors\Visitor.java
+C:\Users\danie\Documents\GitHub\ProgettoCasino\casino\src\main\java\com\casino\server\ClientConnectionHandler.java
+C:\Users\danie\Documents\GitHub\ProgettoCasino\casino\src\main\java\com\casino\comm\messages\Message.java

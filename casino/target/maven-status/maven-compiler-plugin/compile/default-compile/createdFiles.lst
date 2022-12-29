@@ -1,6 +1,6 @@
-com/casino/comm/visitors/Visitor.class
-com/casino/server/Server.class
-com/casino/comm/messages/Visitable.class
-com/casino/comm/messages/Message.class
-com/casino/comm/messages/AskWantToPlayMessage.class
-com/casino/server/ClientConnectionHandler.class
+com\casino\comm\messages\Message.class
+com\casino\comm\messages\Visitable.class
+com\casino\server\ClientConnectionHandler.class
+com\casino\server\Server.class
+com\casino\comm\messages\AskWantToPlayMessage.class
+com\casino\comm\visitors\Visitor.class
