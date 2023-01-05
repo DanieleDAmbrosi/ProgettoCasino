@@ -146,15 +146,54 @@
             </Setter>
         </Style>
 
-        <Storyboard x:Key="spin">
-            <DoubleAnimation Storyboard.TargetName="roulette_grid" Storyboard.TargetProperty="(Grid.RenderTransform).(RotateTransform.Angle)"  From="0" To="1000"/>
+        <Storyboard x:Key="spin" Completed="onFinishSpin">
+            <!--<DoubleAnimation Storyboard.TargetName="roulette_grid" Storyboard.TargetProperty="(Grid.RenderTransform).(RotateTransform.Angle)"/>-->
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Grid.RenderTransform).(RotateTransform.Angle)" Storyboard.TargetName="roulette_grid" >
+                <EasingDoubleKeyFrame KeyTime="0" Value="-0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="-90"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="-180"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:3" Value="-270"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:4" Value="-360"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)" Storyboard.TargetName="ellipse_grid">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="90"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="180"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:3" Value="270"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:4" Value="360"/>
+            </DoubleAnimationUsingKeyFrames>
+            <!--<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="ellipse">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-0.056"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="-89.871"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="-179.468"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:3" Value="-269.405"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:4" Value="-360.488"/>
+            </DoubleAnimationUsingKeyFrames>-->
+            <!--<DoubleAnimationUsingPath Duration="0:0:3.96" Source="X" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="ellipse">
+                <DoubleAnimationUsingPath.PathGeometry>
+                    <PathGeometry Figures="M39.5,115 C39.5,218.55339 -44.446609,302.5 -148,302.5 C-251.55339,302.5 -335.5,218.55339 -335.5,115 C-335.5,11.446609 -251.55339,-72.5 -148,-72.5 C-44.446609,-72.5 39.5,11.446609 39.5,115 z"/>
+                </DoubleAnimationUsingPath.PathGeometry>
+            </DoubleAnimationUsingPath>
+            <DoubleAnimationUsingPath Duration="0:0:3.96" Source="Y" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="ellipse">
+                <DoubleAnimationUsingPath.PathGeometry>
+                    <PathGeometry Figures="M39.5,115 C39.5,218.55339 -44.446609,302.5 -148,302.5 C-251.55339,302.5 -335.5,218.55339 -335.5,115 C-335.5,11.446609 -251.55339,-72.5 -148,-72.5 C-44.446609,-72.5 39.5,11.446609 39.5,115 z"/>
+                </DoubleAnimationUsingPath.PathGeometry>
+            </DoubleAnimationUsingPath>-->
         </Storyboard>
 
     </Window.Resources>
 
-    <Grid>
+    <Grid RenderTransformOrigin="0.5,0.5">
+        <Grid.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform/>
+                <SkewTransform/>
+                <RotateTransform Angle="0"/>
+                <TranslateTransform/>
+            </TransformGroup>
+        </Grid.RenderTransform>
         <Button Height="30" Width="100" VerticalAlignment="Top" HorizontalAlignment="Left" Content="SPIN" Click="SpinButton_Click"/>
-        <Grid x:Name="roulette_grid"  Width="400" Height="400" RenderTransformOrigin="0.5,0.5" >
+        <Grid x:Name="roulette_grid"  Width="400" Height="400" RenderTransformOrigin="0.5,0.5">
             <Grid.RenderTransform>
                 <RotateTransform Angle="0"/>
             </Grid.RenderTransform>
@@ -340,6 +379,25 @@
                     <RotateTransform Angle="350.2692"/>
                 </CheckBox.RenderTransform>
             </CheckBox>
+        </Grid>
+        <Grid x:Name="ellipse_grid"  Width="400" Height="400" RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
+            <Ellipse x:Name="ellipse" Fill="#FFFFFFFF" Height="24" Stroke="Black" VerticalAlignment="Top" Width="24"/>
+
+            <!--RenderTransformOrigin="0.5,8.417"-->
+                <!--<Ellipse.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Ellipse.RenderTransform>-->
+            <!--</Ellipse>-->
         </Grid>
     </Grid>
 </Window>

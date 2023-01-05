@@ -30,15 +30,20 @@ namespace WpfAppRoulette
 
         private void SpinButton_Click(object sender, RoutedEventArgs e)
         {
-            
-            s.RepeatBehavior = new RepeatBehavior(3);
-            Thread t1 = new Thread(() => {
+           // s.GetAnimationBaseValue(roulette_grid);
+            //s.RepeatBehavior = new RepeatBehavior(3);
+            /*Thread t1 = new Thread(() => {
                 while (s.GetCurrentIteration() <= 3)
                     s.SetSpeedRatio(s.GetCurrentGlobalSpeed());
-            });
+            });*/
             s.Begin();
-            t1.Start();
+            //t1.Start();
             
+        }
+
+        private void onFinishSpin(object sender, EventArgs e)//quando finisce di girare la roulette
+        {
+            //MessageBox.Show("fine");
         }
     }
 }
