@@ -12,17 +12,33 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Media.Animation;
+using System.Threading;
 
 namespace WpfAppRoulette
 {
-    /// <summary>
-    /// Logica di interazione per MainWindow.xaml
-    /// </summary>
+   
     public partial class MainWindow : Window
     {
+        Storyboard s;
         public MainWindow()
         {
             InitializeComponent();
+            s = (Storyboard)TryFindResource("spin");
+            
+        }
+
+        private void SpinButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+            s.RepeatBehavior = new RepeatBehavior(3);
+            Thread t1 = new Thread(() => {
+                while (s.GetCurrentIteration() <= 3)
+                    s.SetSpeedRatio(s.GetCurrentGlobalSpeed());
+            });
+            s.Begin();
+            t1.Start();
+            
         }
     }
 }
