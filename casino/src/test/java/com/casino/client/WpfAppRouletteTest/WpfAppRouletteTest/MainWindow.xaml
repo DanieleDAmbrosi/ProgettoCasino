@@ -1,0 +1,104 @@
+﻿<Window x:Class="WpfAppRouletteTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfAppRouletteTest"
+        mc:Ignorable="d"
+        Height="450" Width="800">
+    <Grid x:Name="mainGrid">
+        <Viewbox Stretch="Uniform" StretchDirection="Both">
+            <Canvas Background="Transparent" IsHitTestVisible="False"
+                        Width="{Binding RouletteWheel.MainBorderWidthPixels, Mode=OneWay}"
+                        Height="{Binding RouletteWheel.MainBorderHeightPixels, Mode=OneWay}">
+                <!--Outer wheel-->
+                <Ellipse HorizontalAlignment="Center" 
+                             VerticalAlignment="Center" 
+                             Width="{Binding RouletteWheel.OuterWheelDiameterXPixels, Mode=OneWay}" 
+                             Height="{Binding RouletteWheel.OuterWheelDiameterYPixels, Mode=OneWay}" 
+                             Fill="SaddleBrown">
+                    <Ellipse.RenderTransform>
+                        <TranslateTransform X="{Binding RouletteWheel.OuterWheelOffsetXPixels, Mode=OneWay}" Y="{Binding RouletteWheel.OuterWheelOffsetYPixels, Mode=OneWay}"></TranslateTransform>
+                    </Ellipse.RenderTransform>
+                </Ellipse>
+                <!--Center wheel-->
+                <Ellipse HorizontalAlignment="Center" 
+                             VerticalAlignment="Center" 
+                             Width="{Binding RouletteWheel.CenterWheelDiameterXPixels, Mode=OneWay}" 
+                             Height="{Binding RouletteWheel.CenterWheelDiameterYPixels, Mode=OneWay}" 
+                             Stroke="Gold"
+                             StrokeThickness="10"
+                             Fill="SaddleBrown">
+                    <Ellipse.RenderTransform>
+                        <TranslateTransform X="{Binding RouletteWheel.CenterWheelOffsetXPixels, Mode=OneWay}" Y="{Binding RouletteWheel.CenterWheelOffsetYPixels, Mode=OneWay}"></TranslateTransform>
+                    </Ellipse.RenderTransform>
+                </Ellipse>
+                <!--Inner wheel-->
+                <ItemsControl x:Name="wheelControl" 
+                                  ItemsSource="{Binding RouletteWheel.Pockets, Mode=OneWay}"
+                                  Width="{Binding RouletteWheel.MainBorderWidthPixels, Mode=OneWay}" 
+                                  Height="{Binding RouletteWheel.MainBorderHeightPixels, Mode=OneWay}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Grid></Grid>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Polygon Stroke="Gold" StrokeThickness="3" Points="{Binding Points, Mode=OneWay}">
+                                    <Polygon.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform CenterX="{Binding CenterPointXPixels, Mode=OneWay}" 
+                                                                 CenterY="{Binding CenterPointYPixels, Mode=OneWay}" 
+                                                                 Angle="{Binding AngularPositionDegrees, Mode=OneWay}">
+                                            </RotateTransform>
+                                        </TransformGroup>
+                                    </Polygon.RenderTransform>
+                                    <Polygon.Style>
+                                        <Style TargetType="Polygon">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsGreenNumber}" Value="True">
+                                                    <Setter Property="Fill" Value="LimeGreen"></Setter>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsRedNumber}" Value="True">
+                                                    <Setter Property="Fill" Value="Red"></Setter>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsBlackNumber}" Value="True">
+                                                    <Setter Property="Fill" Value="Black"></Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Polygon.Style>
+                                </Polygon>
+                                <Label HorizontalAlignment="Left" VerticalAlignment="Top" 
+                                           HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                                           Width="{Binding WidthPixels}" Height="Auto" 
+                                           Foreground="White" Background="Transparent" Content="{Binding Label, Mode=OneWay}">
+                                    <Label.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform X="{Binding XPositionPixels, Mode=OneWay}" Y="{Binding YPositionPixels, Mode=OneWay}"></TranslateTransform>
+                                            <RotateTransform CenterX="{Binding CenterPointXPixels, Mode=OneWay}" 
+                                                                 CenterY="{Binding CenterPointYPixels, Mode=OneWay}" 
+                                                                 Angle="{Binding AngularPositionDegrees, Mode=OneWay}">
+                                            </RotateTransform>
+                                        </TransformGroup>
+                                    </Label.RenderTransform>
+                                </Label>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <!--The ball-->
+                <Ellipse x:Name="ballControl" 
+                             HorizontalAlignment="Center" 
+                             VerticalAlignment="Center" 
+                             Width="{Binding RouletteWheel.BallDiameterXPixels, Mode=OneWay}" 
+                             Height="{Binding RouletteWheel.BallDiameterYPixels, Mode=OneWay}" 
+                             Fill="Silver">
+                </Ellipse>
+                <!--<MediaElement x:Name="ballMediaElement" Source="../Sounds/ball_rolling.wav" LoadedBehavior="Manual" UnloadedBehavior="Stop"></MediaElement>-->
+            </Canvas>
+        </Viewbox>
+    </Grid>
+</Window>

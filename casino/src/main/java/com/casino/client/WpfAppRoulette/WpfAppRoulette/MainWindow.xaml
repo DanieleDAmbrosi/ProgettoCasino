@@ -372,7 +372,7 @@
                     <RotateTransform Angle="350.2692"/>
                 </CheckBox.RenderTransform>
             </CheckBox>
-            
+
         </Grid>
         <Grid x:Name="ellipse_grid"  Width="400" Height="400" RenderTransformOrigin="0.5,0.5">
             <Grid.RenderTransform>
@@ -383,12 +383,22 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </Grid.RenderTransform>
-            <Ellipse x:Name="ellipse" Fill="#FFFFFFFF" Height="24" Stroke="Black" VerticalAlignment="Top" Width="24" RenderTransformOrigin="0.5,0.5">
+            <!--<Ellipse x:Name="ellipse" Fill="#FFFFFFFF" Height="24" Stroke="Black" VerticalAlignment="Top" Width="24" RenderTransformOrigin="0.5,0.5">
                 <Ellipse.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
                         <SkewTransform/>
                         <RotateTransform Angle="0"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Ellipse.RenderTransform>
+            </Ellipse>-->
+            <Ellipse x:Name="ellipse" VerticalAlignment="Top" Margin="0,5,0,0" Height="10" Width="10" Fill="Silver">
+                <Ellipse.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
                         <TranslateTransform/>
                     </TransformGroup>
                 </Ellipse.RenderTransform>
