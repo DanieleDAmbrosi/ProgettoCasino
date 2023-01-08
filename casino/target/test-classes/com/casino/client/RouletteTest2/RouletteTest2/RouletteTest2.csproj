@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BC7CD3F4-139E-43B0-B227-D4EBA6D9FB4B}</ProjectGuid>
+    <ProjectGuid>{874EFA08-2066-4CD9-8D4C-01F7556A4330}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>WpfAppRoulette</RootNamespace>
-    <AssemblyName>WpfAppRoulette</AssemblyName>
+    <RootNamespace>RouletteTest2</RootNamespace>
+    <AssemblyName>RouletteTest2</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -63,7 +63,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Constants.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -94,6 +93,32 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="image\05.png" />
+    <Resource Include="image\10.png" />
+    <Resource Include="image\25.png" />
+    <Resource Include="image\50.png" />
+    <Resource Include="image\hoechstgewinn.png" />
+    <Resource Include="image\Info.png" />
+    <Resource Include="image\Kessel.png" />
+    <Resource Include="image\KesselInhalt.png" />
+    <Resource Include="image\Kugel.png" />
+    <Resource Include="image\löschenbutton.png" />
+    <Resource Include="image\Megagewinn.png" />
+    <Resource Include="image\monsterGewinn.png" />
+    <Resource Include="image\Pfeil.png" />
+    <Resource Include="image\Roulette.Finish.jpg" />
+    <Resource Include="image\schritt1.jpg" />
+    <Resource Include="image\schritt2.jpg" />
+    <Resource Include="image\schritt3.jpg" />
+    <Resource Include="image\schritt4.jpg" />
+    <Resource Include="image\StartButton.png" />
+    <Resource Include="image\supergewinn.png" />
+    <Resource Include="image\Volume_Off.png" />
+    <Resource Include="image\Volume_On.png" />
+    <Resource Include="image\wasauchimmer.png" />
+    <Resource Include="image\ZurueckButton.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
