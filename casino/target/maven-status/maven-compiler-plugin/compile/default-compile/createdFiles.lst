@@ -1,6 +1,2 @@
 com\casino\server\Server.class
-com\casino\comm\messages\GenericMessage.class
-com\casino\comm\visitors\Visitor.class
 com\casino\server\ClientConnectionHandler.class
-com\casino\comm\messages\Message.class
-com\casino\comm\messages\AskWantToPlayMessage.class

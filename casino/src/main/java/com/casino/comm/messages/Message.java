@@ -18,4 +18,5 @@ public abstract class Message{
         this.gameRunning = gameRunning;
     }
     public abstract void accept(Visitor visitor);
+    //public abstract void accept(com.casino.client.visitors.Visitor visitor);
 }
