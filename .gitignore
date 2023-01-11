@@ -151,6 +151,7 @@ AppPackages/
 test-classes/
 surefire-reports/
 generated-test-sources/
+maven-status/
 
 # Others
 sql/
