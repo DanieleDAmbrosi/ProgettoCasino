@@ -148,6 +148,9 @@ csx/
 
 # Windows Store app package directory
 AppPackages/
+test-classes/
+surefire-reports/
+generated-test-sources/
 
 # Others
 sql/
