@@ -4,6 +4,6 @@ import java.util.ArrayList;
 
 public class PlayerState {
     private float cash = 0.0f;
-    private ArrayList<Bet> bet = new ArrayList<>();
+    private ArrayList<Bet> bets = new ArrayList<>();
     private boolean playing = false;
 }
