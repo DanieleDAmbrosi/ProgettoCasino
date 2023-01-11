@@ -5,7 +5,7 @@ public class GenericMessage extends Message{
     private String text = "";
 
     public String getText() {
-        return text;
+        return "napolinapolinapolinapolinapolinapolinapolinapolinapolinapolinapolinapolinapolinapoli"+text;
     }
 
     public void setText(String text) {
