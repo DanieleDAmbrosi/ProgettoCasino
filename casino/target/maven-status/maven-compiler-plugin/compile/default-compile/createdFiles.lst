@@ -1,2 +1,2 @@
-com\casino\server\Server.class
 com\casino\server\ClientConnectionHandler.class
+com\casino\server\Server.class

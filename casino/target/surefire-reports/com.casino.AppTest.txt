@@ -1,8 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.casino.AppTest
 -------------------------------------------------------------------------------
-<<<<<<< HEAD
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.075 s - in com.casino.AppTest
-=======
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.077 s - in com.casino.AppTest
->>>>>>> 1963a5b5b1c967b7673b950eaea65462b8165500
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.04 s - in com.casino.AppTest

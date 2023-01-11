@@ -1,8 +1,6 @@
-C:\Users\giudici_matteo\Documents\GitHub\ProgettoCasino\casino\src\main\java\com\casino\client\visitors\Visitor.java
-C:\Users\giudici_matteo\Documents\GitHub\ProgettoCasino\casino\src\main\java\com\casino\comm\messages\GenericMessage.java
-C:\Users\giudici_matteo\Documents\GitHub\ProgettoCasino\casino\src\main\java\com\casino\server\ClientConnectionHandler.java
-C:\Users\giudici_matteo\Documents\GitHub\ProgettoCasino\casino\src\main\java\com\casino\comm\messages\Message.java
-C:\Users\giudici_matteo\Documents\GitHub\ProgettoCasino\casino\src\main\java\com\casino\comm\visitors\Visitor.java
-C:\Users\giudici_matteo\Documents\GitHub\ProgettoCasino\casino\src\main\java\com\casino\comm\messages\AskWantToPlayMessage.java
-C:\Users\giudici_matteo\Documents\GitHub\ProgettoCasino\casino\src\main\java\com\casino\client\Client.java
-C:\Users\giudici_matteo\Documents\GitHub\ProgettoCasino\casino\src\main\java\com\casino\server\Server.java
+D:\giudici matteo\github\ProgettoCasino\casino\src\main\java\com\casino\client\Client.java
+D:\giudici matteo\github\ProgettoCasino\casino\src\main\java\com\casino\comm\messages\Message.java
+D:\giudici matteo\github\ProgettoCasino\casino\src\main\java\com\casino\comm\visitors\VisitorClient.java
+D:\giudici matteo\github\ProgettoCasino\casino\src\main\java\com\casino\comm\visitors\VisitorServer.java
+D:\giudici matteo\github\ProgettoCasino\casino\src\main\java\com\casino\server\ClientConnectionHandler.java
+D:\giudici matteo\github\ProgettoCasino\casino\src\main\java\com\casino\server\Server.java
