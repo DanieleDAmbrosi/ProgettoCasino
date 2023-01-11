@@ -5,7 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.SocketException;
+//import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import com.casino.comm.messages.*;
@@ -153,7 +153,7 @@ public class Client extends Thread {
                     System.err.println("Usage: [-SERVERPORT] port --- [-SERVERPORT] has to be an int");
                     throw new Exception();
                 } catch (UnknownHostException e) {
-                    System.err.println("Usage: [-SERVERIP] address --- [-SERVERIP] has to be an ip like {172.10.0.1}");
+                    System.err.println("Usage: [-SERVERIP] address --- [-SERVERIP] has to be an ip like {127.10.0.1}");
                 }
                 SERVER_PORT = iPort;
                 SERVER_ADDRESS = iAddress;
