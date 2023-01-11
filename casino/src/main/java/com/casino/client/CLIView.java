@@ -1,13 +1,23 @@
 package com.casino.client;
 
+import java.io.IOException;
+
+import com.casino.comm.messages.AskWantToPlayMessage;
 import com.casino.comm.messages.Message;
 
 public class CLIView implements View{
 
+    private SendMessageToServer sendMessageToServer;;
+
+    /**
+     * Empty constructor
+     */
+    public CLIView() {
+    }
+
     @Override
     public void setSendMessageToServer(SendMessageToServer sendMessageToServer) {
-        // TODO Auto-generated method stub
-        
+        this.sendMessageToServer = sendMessageToServer;        
     }
 
     @Override
@@ -63,6 +73,37 @@ public class CLIView implements View{
     public void close() {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public void askWantToPlay(AskWantToPlayMessage askWantToPlay) {
+        Thread thread = new Thread(() -> {
+            clearScreen();
+            System.out.println("I'm trying to join a game");
+            sendMessageToServer.sendMessage(askWantToPlay);
+        });
+        thread.setDaemon(true);
+        thread.start();        
+    }
+
+     /**
+     * This method is called to clear the console
+     */
+    private void clearScreen() {
+        final String os = System.getProperty("os.name");
+        if (os.contains("Windows")) {
+            try {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } catch (InterruptedException | IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                Runtime.getRuntime().exec("clear");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
     
 }

@@ -11,5 +11,8 @@ public class SendMessageToServer {
     public void sendMessage(Message message) {
         connectionHandlerClientSide.sendMessage(message);
     }
+    public void sendAskWantToPlay(AskWantToPlayMessage askWantToPlayEvent) {
+        connectionHandlerClientSide.sendMessage(askWantToPlayEvent);
+    }
     
 }

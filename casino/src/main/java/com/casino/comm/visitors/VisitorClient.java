@@ -1,9 +1,7 @@
 package com.casino.comm.visitors;
 
-import java.io.ObjectOutputStream;
-
 import com.casino.client.View;
-import com.casino.comm.messages.Message;
+import com.casino.comm.messages.*;
 
 public class VisitorClient{
     /**
@@ -20,7 +18,7 @@ public class VisitorClient{
         this.view = view;
     }
 
-    public void visit(Message message) {
-        
+    public void visit(AskWantToPlayMessage askWantToPlay) {//vuoi giocare
+        view.askWantToPlay(askWantToPlay);
     }
 }

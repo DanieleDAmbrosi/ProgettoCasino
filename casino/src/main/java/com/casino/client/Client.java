@@ -5,7 +5,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.HashMap;
 
-
 public class Client {
 
     private static int SERVER_PORT;
@@ -15,7 +14,8 @@ public class Client {
     public Client(InetAddress serverAddress, int serverPort) {
         Client.SERVER_ADDRESS = serverAddress;
         Client.SERVER_PORT = serverPort;
-    }    
+    }
+
     public static void main(String[] args) {
         final int N_ARGS = 6; // the number of the args needed
 
@@ -40,7 +40,12 @@ public class Client {
             return;
         }
 
-        parseClient(hashMap);
+        try {
+            parseClient(hashMap);
+        } catch (Exception e1) {
+            System.err.println("Connection Failed");
+            return;
+        }
 
         Socket clientSocket = null;
 
@@ -80,16 +85,14 @@ public class Client {
      * @param hashMap used to parse args
      * @throws Exception
      */
-    private static void parseClient(HashMap<String, String> hashMap) {
+    private static void parseClient(HashMap<String, String> hashMap) throws Exception {
         boolean redo = false;
 
-        String ipAddress = hashMap.get("ip");
+        String ipAddress = hashMap.get("address");
         if (ipAddress != null) {
-            try {
-                SERVER_ADDRESS = InetAddress.getByName(ipAddress);
-            } catch (Exception e) {
-                redo = true;
-            }
+
+            SERVER_ADDRESS = InetAddress.getByName(ipAddress);
+
         } else {
             redo = true;
         }

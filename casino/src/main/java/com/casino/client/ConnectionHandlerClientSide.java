@@ -1,4 +1,5 @@
 package com.casino.client;
+
 import com.casino.comm.messages.*;
 import java.io.*;
 import java.net.Socket;
@@ -23,7 +24,7 @@ public class ConnectionHandlerClientSide {
     private final View view;
     /**
      * Object use to guarantee the mutual exclusion to access a piece of code
-     */ 
+     */
     private final Object LOCK = new Object();
     /**
      * Boolean attribute used to control if the connection is close
@@ -38,16 +39,21 @@ public class ConnectionHandlerClientSide {
      * @param socket       client socket
      * @param view         view client's side
      */
-    public ConnectionHandlerClientSide(ObjectInputStream inputStream, ObjectOutputStream outputStream, Socket socket, View view) {
+    public ConnectionHandlerClientSide(ObjectInputStream inputStream, ObjectOutputStream outputStream, Socket socket,
+            View view) {
         this.inputStream = inputStream;
         this.outputStream = outputStream;
         this.socket = socket;
         this.view = view;
     }
+
     /**
-     * The first time the method is launched it links a SendMessageToServer object to the view.
-     * Then there's a loop ending only when it received a CloseConnectionFromServerEvent object and this is used for listening
-     * to the input stream and for reading objects once received. If the message received isn't null
+     * The first time the method is launched it links a SendMessageToServer object
+     * to the view.
+     * Then there's a loop ending only when it received a
+     * CloseConnectionFromServerEvent object and this is used for listening
+     * to the input stream and for reading objects once received. If the message
+     * received isn't null
      * it will be accepted and read from the VisitorClient
      */
     public void listening() {
@@ -57,13 +63,16 @@ public class ConnectionHandlerClientSide {
             while (!closed) {
                 Message message = null;
                 try {
-                    message = (Message) inputStream.readObject();
+                    message = (Message) inputStream.readObject();                    
                 } catch (IOException | ClassNotFoundException e) {
                     closed = true;
                     view.close();
                 }
-                /*if (message instanceof CloseConnectionFromServerEvent) //se il messaggio dice di chiudere la connessione
-                    closed = true;*/
+                /*
+                 * if (message instanceof CloseConnectionFromServerEvent) //se il messaggio dice
+                 * di chiudere la connessione
+                 * closed = true;
+                 */
                 if (message != null)
                     message.accept(new VisitorClient(view));
             }
@@ -72,9 +81,12 @@ public class ConnectionHandlerClientSide {
         }
         close();
     }
+
     /**
-     * This method is used to send message to the server using the output stream object
-     * until the closed condition is true. Every time it sends a message it clears the output stream
+     * This method is used to send message to the server using the output stream
+     * object
+     * until the closed condition is true. Every time it sends a message it clears
+     * the output stream
      *
      * @param message is the object we want to send
      */
@@ -92,7 +104,8 @@ public class ConnectionHandlerClientSide {
     }
 
     /**
-     * This method is used to close the client connection with the server established with the socket object
+     * This method is used to close the client connection with the server
+     * established with the socket object
      */
     public void close() {
         try {

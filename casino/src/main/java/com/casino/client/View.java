@@ -1,11 +1,14 @@
 package com.casino.client;
 
+import com.casino.comm.messages.AskWantToPlayMessage;
 import com.casino.comm.messages.Message;
 
 /**
  * Interface that defines the methods used by both the CLI view and the GUI view
  */
 public interface View {
+
+    public void askWantToPlay(AskWantToPlayMessage askWantToPlay);
 
     /**
      * Setter method for the SendMessageToServer object
