@@ -9,7 +9,6 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import com.casino.comm.messages.*;
-import com.casino.client.visitors.*;
 
 public class Client extends Thread {
 

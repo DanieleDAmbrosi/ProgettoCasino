@@ -53,10 +53,11 @@ dlldata.c
 *.log
 *.vspscc
 *.vssscc
-.builds
+*.builds
 *.pidb
 *.svclog
 *.scc
+*.vscode
 
 # Chutzpah Test files
 _Chutzpah*

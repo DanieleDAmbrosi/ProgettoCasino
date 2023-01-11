@@ -5,9 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import com.casino.comm.messages.AskWantToPlayMessage;
-import com.casino.comm.messages.Message;
-import com.casino.comm.visitors.Visitor;
+import com.casino.comm.messages.*;
+import com.casino.comm.visitors.VisitorServer;
 
 public class ClientConnectionHandler extends Thread{
     int id;
@@ -28,7 +27,12 @@ public class ClientConnectionHandler extends Thread{
     @Override
     public void run(){
         //VUOI GIOCARE?
-        sendUpdate(new AskWantToPlayMessage(id));
+        sendUpdate(new Message() {
+            public String text = "Test";
+            public void accept(VisitorServer visitorServer){
+                visitorServer.visit(this);
+            }
+        });
         listening();
     }
 
@@ -45,7 +49,7 @@ public class ClientConnectionHandler extends Thread{
                 running = false;
             }
 
-            if(message != null) message.accept(new Visitor(outputStream));
+            if(message != null) message.accept(new VisitorServer(outputStream));
         }
         forceClose();
     }
