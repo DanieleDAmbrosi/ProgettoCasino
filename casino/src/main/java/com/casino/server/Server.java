@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.casino.server.game.Game;
+
 
 /**
  * This class manages the Server
@@ -18,10 +20,9 @@ public class Server{
      * 
      */
     private static int PORT;
-    private static final ArrayList<ClientConnectionHandler> WaitingList = new ArrayList<>();
     private static final ArrayList<ClientConnectionHandler> ClientList = new ArrayList<>();
+    private static final int MAX_LOBBY_SIZE = 10;
 
-    private final Object LOCKWaitingList = new Object();
     private final Object LOCKClientList = new Object();
     /**
      * This is the constructor of the Server class
@@ -49,9 +50,13 @@ public class Server{
 
                 ClientConnectionHandler client = new ClientConnectionHandler(PORT, out, in, clientSocket);
 
-                WaitingList.add(client);
+                ClientList.add(client);
 
                 client.start();
+
+                if(ClientList.size() >= 10){
+                    Game game = new Game();
+                }
             }
         }catch(IOException e){
             e.printStackTrace();
@@ -71,14 +76,9 @@ public class Server{
      */
     public void stopAllClients(){
         synchronized(LOCKClientList){
-            if(WaitingList.size() > 0)
-                for(ClientConnectionHandler client : WaitingList)
-                    client.forceClose();
-            else
-                for(ClientConnectionHandler client : ClientList)
-                    client.forceClose();
+            for(ClientConnectionHandler client : ClientList)
+                client.forceClose();
             ClientList.clear();
-            WaitingList.clear();
         }
     }
     /**
