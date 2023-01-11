@@ -50,7 +50,7 @@ public class Client extends Thread {
                 if (message != null){
                     
                 }
-                    message.accept(new VisitorClient(out);
+                    message.accept(new VisitorClient(out));
             }
             forceClose();
 
