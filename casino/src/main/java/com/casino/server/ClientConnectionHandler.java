@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import com.casino.comm.messages.*;
+import com.casino.comm.visitors.VisitorClient;
 import com.casino.comm.visitors.VisitorServer;
 
 public class ClientConnectionHandler extends Thread{
@@ -30,6 +31,9 @@ public class ClientConnectionHandler extends Thread{
         sendUpdate(new Message() {
             public String text = "Test";
             public void accept(VisitorServer visitorServer){
+                visitorServer.visit(this);
+            }
+            public void accept(VisitorClient visitorServer){
                 visitorServer.visit(this);
             }
         });
