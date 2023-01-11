@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import com.casino.comm.messages.*;
@@ -102,32 +103,42 @@ public class Client extends Thread {
 
         if (N_ARGS != args.length) {
             System.err.println("Usage: ParseCmdLine [-SERVERIP] address [-SERVERPORT] port [-CLI/GUI] view");
+            return;
         }
 
-        parseClient(hashMap);
+        try {
+            parseClient(hashMap);
+        } catch (Exception e1) {
+            System.err.println("Connection Failed");
+            return;
+        }
 
         Client client = new Client(SERVER_ADDRESS, SERVER_PORT);
 
         Socket clientSocket = null;
 
         try {
-            clientSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+            clientSocket = new Socket(Client.SERVER_ADDRESS, Client.SERVER_PORT);
 
             System.out.println("Connected to the server: [" + SERVER_ADDRESS.getHostAddress() + "] address ["
                     + SERVER_PORT + "] port");
         } catch (Exception e) {
             System.err.println("Connection Failed");
+            return;
         }
 
         client.run(clientSocket);
     }
 
+   
+
     /**
      * parsing the PORT chosen by user
      * 
      * @param hashMap used to parse args
+     * @throws Exception
      */
-    private static void parseClient(HashMap<String, String> hashMap) {
+    private static void parseClient(HashMap<String, String> hashMap) throws Exception {
         String port = hashMap.get("port");
         String address = hashMap.get("address");
 
@@ -140,11 +151,13 @@ public class Client extends Thread {
                     iAddress = InetAddress.getByName(address);
                 } catch (NumberFormatException e) {
                     System.err.println("Usage: [-SERVERPORT] port --- [-SERVERPORT] has to be an int");
+                    throw new Exception();
                 } catch (UnknownHostException e) {
                     System.err.println("Usage: [-SERVERIP] address --- [-SERVERIP] has to be an ip like {172.10.0.1}");
                 }
                 SERVER_PORT = iPort;
-                System.out.println("The port has been chosen correctly!!!");
+                SERVER_ADDRESS = iAddress;
+                //System.out.println("The port has been chosen correctly!!!");
             } else
                 System.err.println("Usage: [-SERVERIP] address --- [-SERVERIP] param missing");
         } else
