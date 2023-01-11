@@ -2,15 +2,25 @@ package com.casino.comm.visitors;
 
 import java.io.ObjectOutputStream;
 
+import com.casino.client.View;
 import com.casino.comm.messages.Message;
 
 public class VisitorClient{
-    private final ObjectOutputStream outputStream;
+    /**
+     * View client's side
+     */
+    public final View view;
 
-    public VisitorClient(ObjectOutputStream outputStream) {
-        this.outputStream = outputStream;
+    /**
+     * class constructor
+     *
+     * @param view is the interface allocated for a client
+     */
+    public VisitorClient(View view) {
+        this.view = view;
     }
 
     public void visit(Message message) {
+        
     }
 }
