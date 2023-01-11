@@ -1,5 +1,5 @@
 package com.casino.comm.messages;
-import com.casino.comm.visitors.VisitorServer;
+import com.casino.comm.visitors.*;
 
 public abstract class Message{
     private int clientIndex;
@@ -18,5 +18,5 @@ public abstract class Message{
         this.gameRunning = gameRunning;
     }
     public abstract void accept(VisitorServer visitor);
-    //public abstract void accept(com.casino.client.visitors.Visitor visitor);
+    public abstract void accept(VisitorClient visitor);
 }

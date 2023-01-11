@@ -9,6 +9,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import com.casino.comm.messages.*;
+import com.casino.comm.visitors.*;
 
 public class Client extends Thread {
 
@@ -49,7 +50,7 @@ public class Client extends Thread {
                 if (message != null){
                     
                 }
-                    //message.acceptClient(new Visitor(out));
+                    message.accept(new VisitorClient(out);
             }
             forceClose();
 
