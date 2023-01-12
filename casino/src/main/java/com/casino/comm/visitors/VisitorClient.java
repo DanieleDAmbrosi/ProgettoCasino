@@ -21,4 +21,7 @@ public class VisitorClient{
     public void visit(AskWantToPlayMessage askWantToPlay) {//vuoi giocare
         view.askWantToPlay(askWantToPlay);
     }
+
+    public void visit(Message message) {
+    }
 }

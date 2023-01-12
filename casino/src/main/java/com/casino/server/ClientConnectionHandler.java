@@ -8,6 +8,7 @@ import java.net.Socket;
 import com.casino.comm.messages.*;
 import com.casino.comm.visitors.VisitorClient;
 import com.casino.comm.visitors.VisitorServer;
+import com.casino.server.game.Game;
 
 public class ClientConnectionHandler extends Thread{
     int id;
@@ -15,14 +16,16 @@ public class ClientConnectionHandler extends Thread{
     private final ObjectOutputStream outputStream;
     private final ObjectInputStream inputStream;
     private final Socket socket;
+    private final Game game;
 
     private boolean running = true;
 
-    public ClientConnectionHandler(int id, ObjectOutputStream outputStream, ObjectInputStream inputStream, Socket socket) {
+    public ClientConnectionHandler(int id, ObjectOutputStream outputStream, ObjectInputStream inputStream, Socket socket, Game game) {
         this.id = id;
         this.outputStream = outputStream;
         this.inputStream = inputStream;
         this.socket = socket;
+        this.game = game;
     }
 
     @Override
@@ -53,7 +56,7 @@ public class ClientConnectionHandler extends Thread{
                 running = false;
             }
 
-            if(message != null) message.accept(new VisitorServer(outputStream));
+            if(message != null) message.accept(new VisitorServer(game, id));
         }
         forceClose();
     }

@@ -39,6 +39,7 @@ public class Server{
      */
     public void run(ServerSocket serverSocket) {
         try {
+            Game game = new Game();
             while(true){
                 Socket clientSocket;
                 
@@ -48,15 +49,11 @@ public class Server{
                 ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
                 ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
 
-                ClientConnectionHandler client = new ClientConnectionHandler(PORT, out, in, clientSocket);
+                ClientConnectionHandler client = new ClientConnectionHandler(PORT, out, in, clientSocket, game);
 
                 ClientList.add(client);
 
                 client.start();
-
-                if(ClientList.size() >= 10){
-                    Game game = new Game();
-                }
             }
         }catch(IOException e){
             e.printStackTrace();
