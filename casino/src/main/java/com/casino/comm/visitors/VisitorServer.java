@@ -1,6 +1,7 @@
 package com.casino.comm.visitors;
 
 import com.casino.comm.messages.Message;
+import com.casino.comm.messages.ResetConnectionMessage;
 import com.casino.server.game.Game;
 
 public class VisitorServer {
@@ -14,5 +15,9 @@ public class VisitorServer {
 
     public void visit(Message message){
         
+    }
+
+    public void visit(ResetConnectionMessage resetConnectionMessage){
+        game.removePlayer(id, resetConnectionMessage);
     }
 }

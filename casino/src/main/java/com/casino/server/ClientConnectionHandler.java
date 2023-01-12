@@ -48,17 +48,27 @@ public class ClientConnectionHandler extends Thread{
      */
     private void listening() {
         while(running){
-            Message message = null;
+            Message genericMessage = null;
 
             try {
-                message = (Message) inputStream.readObject();
+                genericMessage = (Message) inputStream.readObject();
             } catch (ClassNotFoundException | IOException e) {
                 running = false;
             }
-
-            if(message != null) message.accept(new VisitorServer(game, id));
+            if(genericMessage instanceof ResetConnectionMessage) close((ResetConnectionMessage) genericMessage);
+            if(genericMessage != null) genericMessage.accept(new VisitorServer(game, id));
         }
         forceClose();
+    }
+
+    private void close(ResetConnectionMessage resetConnectionMessage) {
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Client " + socket + " has disconnected");
+        if(resetConnectionMessage.message != "") System.out.println("Message: " + resetConnectionMessage.message);
     }
 
     private void sendUpdate(Object object) {
@@ -67,6 +77,14 @@ public class ClientConnectionHandler extends Thread{
     public void forceClose() {
         try {
             socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Client " + socket + " has been disconnected forcefully");
+        ResetConnectionMessage resetConnectionMessage = new ResetConnectionMessage();
+        resetConnectionMessage.message = "You have been disconnected forcefully";
+        try {
+            outputStream.writeObject(resetConnectionMessage);
         } catch (IOException e) {
             e.printStackTrace();
         }

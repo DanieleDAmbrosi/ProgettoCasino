@@ -22,6 +22,10 @@ public class VisitorClient{
         view.askWantToPlay(askWantToPlay);
     }
 
+    public void visit(ResetConnectionMessage resetConnectionMessage){
+        // TODO Auto-generated method stub
+    }
+
     public void visit(Message message) {
     }
 }

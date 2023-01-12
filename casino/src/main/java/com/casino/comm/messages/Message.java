@@ -1,7 +1,9 @@
 package com.casino.comm.messages;
+import java.io.Serializable;
+
 import com.casino.comm.visitors.*;
 
-public abstract class Message{
+public abstract class Message implements Serializable{
     private int clientIndex;
     private boolean gameRunning = true;
 
