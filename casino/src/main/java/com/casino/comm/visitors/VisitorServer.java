@@ -1,5 +1,8 @@
 package com.casino.comm.visitors;
 
+import java.io.IOException;
+
+import com.casino.comm.messages.DoABetMessage;
 import com.casino.comm.messages.JoinGameMessage;
 import com.casino.comm.messages.ResetConnectionMessage;
 import com.casino.server.ClientConnectionHandler;
@@ -22,5 +25,11 @@ public class VisitorServer {
 
     public void visit(JoinGameMessage joinGameMessage){
         game.addPlayer(clientConnectionHandler, joinGameMessage.name, id);
+        try {
+            clientConnectionHandler.sendMessage(new DoABetMessage());
+            System.out.println("Sent a message");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

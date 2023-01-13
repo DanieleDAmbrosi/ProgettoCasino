@@ -37,6 +37,7 @@ public class ClientConnectionHandler extends Thread{
      * Receives all the messages from the client
      */
     private void listening() {
+        VisitorServer visitorServer = new VisitorServer(game, id, this);
         while(running){
             Message genericMessage = null;
 
@@ -49,9 +50,10 @@ public class ClientConnectionHandler extends Thread{
                 close((ResetConnectionMessage) genericMessage);
                 running = false;
             }
-            if(genericMessage != null) genericMessage.accept(new VisitorServer(game, id, this));
+            if(genericMessage != null) genericMessage.accept(visitorServer);
         }
-        forceClose();
+        if(!socket.isClosed())
+            forceClose();
     }
 
     private void close(ResetConnectionMessage resetConnectionMessage) {
@@ -69,16 +71,16 @@ public class ClientConnectionHandler extends Thread{
     }
 
     public void forceClose() {
-        try {
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         System.out.println("Client " + socket + " has been disconnected forcefully");
         ResetConnectionMessage resetConnectionMessage = new ResetConnectionMessage();
         resetConnectionMessage.message = "You have been disconnected forcefully";
         try {
             sendMessage(resetConnectionMessage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

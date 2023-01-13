@@ -80,7 +80,7 @@ public class CLIView implements View {
                 System.out.println("Do a bet:");
                 Bet bet = inputABet(input);
                 DoABetMessage doABetMessage = new DoABetMessage();
-                doABetMessage.bet = bet;
+                //doABetMessage.bet = bet;
                 sendMessageToServer.sendBet(doABetMessage);
             }
 

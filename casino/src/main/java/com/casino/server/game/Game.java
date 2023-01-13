@@ -15,9 +15,9 @@ public class Game {
 
     }
 
-    public Boolean addPlayer(ClientConnectionHandler client, String name, String id){
+    public void addPlayer(ClientConnectionHandler client, String name, String id){
         Player player = new Player(client, new PlayerState(), name);
-        return players.put(id, player) != null;
+        System.out.println("Player " + player + " joined the lobby");
     }
 
     public void removePlayer(String id, ResetConnectionMessage resetConnectionMessage) {
