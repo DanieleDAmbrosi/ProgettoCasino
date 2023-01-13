@@ -1,11 +1,11 @@
 package com.casino.comm.messages;
 
 import com.casino.comm.visitors.*;
-import com.casino.comm.player.Bet;
+import com.casino.comm.player.*;
 
 public class DoABetMessage extends Message {
 
-    public Bet bet;
+    public PlayerState playerState;
 
     @Override
     public void accept(VisitorServer visitor) {
@@ -16,7 +16,6 @@ public class DoABetMessage extends Message {
     @Override
     public void accept(VisitorClient visitor) {
         visitor.visit(this);
-
     }
 
 }

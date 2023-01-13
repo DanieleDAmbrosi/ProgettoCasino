@@ -128,7 +128,7 @@ public class CLIView implements View {
         System.out.println("What box?");
         int intInputBox;
         intInputBox = inputNumber(input);
-        while (intInputBox < 0 || intInputBox > 36) {
+        while (intInputBox < 0 || intInputBox > 50) {
             System.out.println("Repeat, the input is wrong");
             intInputBox = inputNumber(input);
         }
