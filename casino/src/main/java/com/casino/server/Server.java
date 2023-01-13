@@ -49,7 +49,7 @@ public class Server{
                 ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
                 ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
 
-                ClientConnectionHandler client = new ClientConnectionHandler(PORT, out, in, clientSocket, game);
+                ClientConnectionHandler client = new ClientConnectionHandler(out, in, clientSocket, game);
 
                 ClientList.add(client);
 

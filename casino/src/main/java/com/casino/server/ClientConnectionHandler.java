@@ -4,14 +4,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.UUID;
 
 import com.casino.comm.messages.*;
-import com.casino.comm.visitors.VisitorClient;
 import com.casino.comm.visitors.VisitorServer;
 import com.casino.server.game.Game;
 
 public class ClientConnectionHandler extends Thread{
-    int id;
+    private final String id;
 
     private final ObjectOutputStream outputStream;
     private final ObjectInputStream inputStream;
@@ -20,12 +20,12 @@ public class ClientConnectionHandler extends Thread{
 
     private boolean running = true;
 
-    public ClientConnectionHandler(int id, ObjectOutputStream outputStream, ObjectInputStream inputStream, Socket socket, Game game) {
-        this.id = id;
+    public ClientConnectionHandler(ObjectOutputStream outputStream, ObjectInputStream inputStream, Socket socket, Game game) {
         this.outputStream = outputStream;
         this.inputStream = inputStream;
         this.socket = socket;
         this.game = game;
+        id = UUID.randomUUID().toString();
     }
 
     @Override
@@ -64,7 +64,7 @@ public class ClientConnectionHandler extends Thread{
         if(resetConnectionMessage.message != "") System.out.println("Message: " + resetConnectionMessage.message);
     }
 
-    private void sendMessage(Message message) throws IOException {
+    public void sendMessage(Message message) throws IOException {
         outputStream.writeObject(message);
     }
 

@@ -7,10 +7,10 @@ import com.casino.server.game.Game;
 
 public class VisitorServer {
     private final Game game;
-    private final int id;
+    private final String id;
     private final ClientConnectionHandler clientConnectionHandler;
 
-    public VisitorServer(Game game, int id, ClientConnectionHandler clientConnectionHandler) {
+    public VisitorServer(Game game, String id, ClientConnectionHandler clientConnectionHandler) {
         this.game = game;
         this.id = id;
         this.clientConnectionHandler = clientConnectionHandler;
@@ -21,6 +21,6 @@ public class VisitorServer {
     }
 
     public void visit(JoinGameMessage joinGameMessage){
-        game.addPlayer(clientConnectionHandler, joinGameMessage.name);
+        game.addPlayer(clientConnectionHandler, joinGameMessage.name, id);
     }
 }
