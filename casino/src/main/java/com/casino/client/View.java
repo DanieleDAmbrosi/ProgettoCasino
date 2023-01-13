@@ -1,14 +1,13 @@
 package com.casino.client;
 
-import com.casino.comm.messages.AskWantToPlayMessage;
-import com.casino.comm.messages.Message;
+import com.casino.comm.messages.*;
 
 /**
  * Interface that defines the methods used by both the CLI view and the GUI view
  */
 public interface View {
 
-    public void askWantToPlay(AskWantToPlayMessage askWantToPlay);
+    // public void askWantToPlay(AskWantToPlayMessage askWantToPlay);
 
     /**
      * Setter method for the SendMessageToServer object
@@ -16,6 +15,14 @@ public interface View {
      * @param sendMessageToServer is the object to set
      */
     void setSendMessageToServer(SendMessageToServer sendMessageToServer);
+
+    void resetConnection();
+
+    /**
+     * 
+     * @param sendMessageToServer
+     */
+    void doABet();
 
     /**
      * Method called from the VisitorClient when the clientHandler received an
@@ -48,16 +55,13 @@ public interface View {
      * Method called from the VisitorClient of the first player connected when the
      * ClientHandler receives an AskNPlayer message.
      */
-    void askNPlayer();  
-
+    void askNPlayer();
 
     /**
      * 
-     * @param user          is the username that client want to use
+     * @param user is the username that client want to use
      */
     void setUsername(String user);
-
-    
 
     /**
      * Method called from the VisitorClient when the ClientHandler receives an

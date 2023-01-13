@@ -1,7 +1,7 @@
 package com.casino.comm.visitors;
-
 import com.casino.client.View;
 import com.casino.comm.messages.*;
+
 
 public class VisitorClient{
     /**
@@ -18,14 +18,15 @@ public class VisitorClient{
         this.view = view;
     }
 
-    public void visit(AskWantToPlayMessage askWantToPlay) {//vuoi giocare
-        view.askWantToPlay(askWantToPlay);
+    public void visit(Message message){
+        //view.doABet();
     }
-
+    
     public void visit(ResetConnectionMessage resetConnectionMessage){
-        // TODO Auto-generated method stub
-    }
+        view.resetConnection();
+    } 
+    public void visit(DoABetMessage doABetMessage){
+        view.doABet();
+    }  
 
-    public void visit(Message message) {
-    }
 }
