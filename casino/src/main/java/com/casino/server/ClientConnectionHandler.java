@@ -30,16 +30,6 @@ public class ClientConnectionHandler extends Thread{
 
     @Override
     public void run(){
-        //VUOI GIOCARE?
-        sendUpdate(new Message() {
-            public String text = "Test";
-            public void accept(VisitorServer visitorServer){
-                visitorServer.visit(this);
-            }
-            public void accept(VisitorClient visitorServer){
-                visitorServer.visit(this);
-            }
-        });
         listening();
     }
 
@@ -59,7 +49,7 @@ public class ClientConnectionHandler extends Thread{
                 close((ResetConnectionMessage) genericMessage);
                 running = false;
             }
-            if(genericMessage != null) genericMessage.accept(new VisitorServer(game, id));
+            if(genericMessage != null) genericMessage.accept(new VisitorServer(game, id, this));
         }
         forceClose();
     }
@@ -74,7 +64,8 @@ public class ClientConnectionHandler extends Thread{
         if(resetConnectionMessage.message != "") System.out.println("Message: " + resetConnectionMessage.message);
     }
 
-    private void sendUpdate(Object object) {
+    private void sendMessage(Message message) throws IOException {
+        outputStream.writeObject(message);
     }
 
     public void forceClose() {
@@ -87,7 +78,7 @@ public class ClientConnectionHandler extends Thread{
         ResetConnectionMessage resetConnectionMessage = new ResetConnectionMessage();
         resetConnectionMessage.message = "You have been disconnected forcefully";
         try {
-            outputStream.writeObject(resetConnectionMessage);
+            sendMessage(resetConnectionMessage);
         } catch (IOException e) {
             e.printStackTrace();
         }

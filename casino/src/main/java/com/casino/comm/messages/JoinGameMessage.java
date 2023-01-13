@@ -3,9 +3,9 @@ package com.casino.comm.messages;
 import com.casino.comm.visitors.VisitorClient;
 import com.casino.comm.visitors.VisitorServer;
 
-public class ResetConnectionMessage extends Message{
+public class JoinGameMessage extends Message{
 
-    public String message = "";
+    public String name = "";
 
     @Override
     public void accept(VisitorServer visitor) {
