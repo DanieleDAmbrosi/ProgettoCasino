@@ -1,5 +1,4 @@
 package com.casino.client;
-import com.casino.comm.ack.*;
 import com.casino.comm.messages.*;;
 
 public class SendMessageToServer {
@@ -12,15 +11,13 @@ public class SendMessageToServer {
     public void sendMessage(Message message) {
         connectionHandlerClientSide.sendMessage(message);
     }
-    public void sendAckResetConnection(){
-        AckResetConnection ackResetConnection = new AckResetConnection();
-        connectionHandlerClientSide.sendMessage(ackResetConnection);
-    }
+    
     public void sendBet(DoABetMessage doABetMessage){
 
     }
     public void joinGame(){
-        
+        JoinGameMessage joinGameMessage = new JoinGameMessage();
+        connectionHandlerClientSide.sendMessage(joinGameMessage);
     }
     
     

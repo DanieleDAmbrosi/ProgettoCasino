@@ -32,73 +32,12 @@ public class CLIView implements View {
     public void resetConnection() {
         clearScreen();
         System.out.println("DISCONNECTED");
-    }
-
-    @Override
-    public void youCanPlay() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void youHaveToWait() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void askNPlayer() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void setUsername(String user) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void anotherBuild(int rowWorker, int columnWorker, int indexWorker, boolean isWrongBox, boolean isFirstTime,
-            boolean isSpecialTurn, int clientIndex, int currentPlaying, boolean done) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void isNotMyTurn(int clientIndex) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void printHeartBeat(Message objHeartBeat) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void closingConnectionEvent(int indexClient, boolean GameNotAvailable) {
-        // TODO Auto-generated method stub
-
-    }
+    }    
 
     @Override
     public void close() {
         System.out.println("Server is not responding");
-
     }
-
-    // @Override
-    // public void askWantToPlay(AskWantToPlayMessage askWantToPlay) {
-    // Thread thread = new Thread(() -> {
-    // clearScreen();
-    // System.out.println("I'm trying to join a game");
-    // sendMessageToServer.sendMessage(askWantToPlay);
-    // });
-    // thread.setDaemon(true);
-    // thread.start();
-    // }
 
     /**
      * This method is called to clear the console
