@@ -15,6 +15,12 @@ public class CLIView implements View {
      * Empty constructor
      */
     public CLIView() {
+        Thread thread = new Thread(() -> {
+            clearScreen();
+            inputJoinGame();
+        });
+        thread.setDaemon(true);
+        thread.start();
     }
 
     @Override
@@ -24,8 +30,8 @@ public class CLIView implements View {
 
     @Override
     public void resetConnection() {
-        System.out.println("hi");
-        sendMessageToServer.sendAckResetConnection();
+        clearScreen();
+        System.out.println("DISCONNECTED");
     }
 
     @Override
@@ -143,6 +149,18 @@ public class CLIView implements View {
         thread.setDaemon(true);
         thread.start();
 
+    }
+
+    private void inputJoinGame(){
+        Scanner input = new Scanner(System.in);
+        while (true) {
+            System.out.println("Press [ 1 ] to play?");            
+            if (inputNumber(input) == 1) {
+                System.out.println("The game is starting...");
+                break;
+            }            
+        }
+        sendMessageToServer.joinGame();
     }
 
     private int inputYesOrNo(Scanner input) {

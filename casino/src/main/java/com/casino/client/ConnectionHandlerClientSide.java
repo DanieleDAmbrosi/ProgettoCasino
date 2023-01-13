@@ -63,16 +63,15 @@ public class ConnectionHandlerClientSide {
             while (!closed) {
                 Message message = null;
                 try {
-                    message = (Message) inputStream.readObject();                    
+                    message = (Message) inputStream.readObject();
                 } catch (IOException | ClassNotFoundException e) {
                     closed = true;
                     view.close();
                 }
-                /*
-                 * if (message instanceof CloseConnectionFromServerEvent) //se il messaggio dice
-                 * di chiudere la connessione
-                 * closed = true;
-                 */
+
+                if (message instanceof ResetConnectionMessage)
+                    closed = true;
+
                 if (message != null)
                     message.accept(new VisitorClient(view));
             }

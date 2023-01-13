@@ -19,6 +19,9 @@ public class SendMessageToServer {
     public void sendBet(DoABetMessage doABetMessage){
 
     }
+    public void joinGame(){
+        
+    }
     
     
 }
