@@ -55,7 +55,10 @@ public class ClientConnectionHandler extends Thread{
             } catch (ClassNotFoundException | IOException e) {
                 running = false;
             }
-            if(genericMessage instanceof ResetConnectionMessage) close((ResetConnectionMessage) genericMessage);
+            if(genericMessage instanceof ResetConnectionMessage) {
+                close((ResetConnectionMessage) genericMessage);
+                running = false;
+            }
             if(genericMessage != null) genericMessage.accept(new VisitorServer(game, id));
         }
         forceClose();

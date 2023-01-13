@@ -9,13 +9,13 @@ public class ResetConnectionMessage extends Message{
 
     @Override
     public void accept(VisitorServer visitor) {
-        // TODO Auto-generated method stub
+        visitor.visit(this);
         
     }
 
     @Override
     public void accept(VisitorClient visitor) {
-        // TODO Auto-generated method stub
+        visitor.visit(this);
 
     }
     
