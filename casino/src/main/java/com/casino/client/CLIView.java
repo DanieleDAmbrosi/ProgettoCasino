@@ -107,7 +107,8 @@ public class CLIView implements View {
             }
         } else {
             try {
-                Runtime.getRuntime().exec("clear");
+                String[] commandStrings = { "clear" };
+                Runtime.getRuntime().exec(commandStrings);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -118,7 +119,7 @@ public class CLIView implements View {
         System.out.println("ecco la board");
     }
 
-    public void doABet() {        
+    public void doABet() {
         Thread thread = new Thread(() -> {
             clearScreen();
             Scanner input = new Scanner(System.in);
