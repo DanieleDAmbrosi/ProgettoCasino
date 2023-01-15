@@ -1,22 +1,23 @@
 package com.casino.comm.messages;
 
-import com.casino.comm.visitors.*;
-import com.casino.comm.player.*;
+import com.casino.comm.visitors.VisitorClient;
+import com.casino.comm.visitors.VisitorServer;
 
-public class DoABetMessage extends Message {
+public class SendRouletteResultMessage extends Message{
 
-    public PlayerState playerState = new PlayerState();
-    public int timer = 0;
+    public int winningNumber;
+    public float winningCash;
 
     @Override
     public void accept(VisitorServer visitor) {
         visitor.visit(this);
-
+        
     }
 
     @Override
     public void accept(VisitorClient visitor) {
         visitor.visit(this);
+        
     }
-
+    
 }

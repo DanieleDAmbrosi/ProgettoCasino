@@ -3,6 +3,7 @@ package com.casino.comm.visitors;
 import java.io.IOException;
 
 import com.casino.comm.messages.*;
+import com.casino.comm.player.Bet;
 import com.casino.comm.player.PlayerState;
 import com.casino.server.ClientConnectionHandler;
 import com.casino.server.game.Game;
@@ -34,6 +35,15 @@ public class VisitorServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void visit(DoABetMessage doABetMessage){
+        for(Bet bet : doABetMessage.playerState.bets){
+            System.out.println("bet: " + bet.getMoney() + "$ on " + bet.getBox().toString());
+        }
+        
+    }
+    public void visit(SendRouletteResultMessage sendRouletteResultMessage){
+
     }
 
 }

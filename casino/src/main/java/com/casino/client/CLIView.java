@@ -54,23 +54,23 @@ public class CLIView implements View {
      * This method is called to clear the console
      */
     private void clearScreen() {
-        /*
-         * final String os = System.getProperty("os.name");
-         * if (os.contains("Windows")) {
-         * try {
-         * new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-         * } catch (InterruptedException | IOException e) {
-         * e.printStackTrace();
-         * }
-         * } else {
-         * try {
-         * String[] commandStrings = { "clear" };
-         * Runtime.getRuntime().exec(commandStrings);
-         * } catch (IOException e) {
-         * e.printStackTrace();
-         * }
-         * }
-         */
+
+        final String os = System.getProperty("os.name");
+        if (os.contains("Windows")) {
+            try {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } catch (InterruptedException | IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                String[] commandStrings = { "clear" };
+                Runtime.getRuntime().exec(commandStrings);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     private void printBoard() {
@@ -90,7 +90,11 @@ public class CLIView implements View {
         System.out.println("[ 45 ] the odd numbers");
         System.out.println("[ 46 ] the first column");
         System.out.println("[ 47 ] the second column");
-        System.out.println("[ 48 ] the third column");
+        System.out.println("[ 48 ] the third column\n\r");
+    }
+
+    public void showResults(int winningNumber) {
+        System.out.println("The winning number is " + winningNumber);
     }
 
     public void doABet(PlayerState playerState, int seconds) {
@@ -115,8 +119,9 @@ public class CLIView implements View {
         });
         threadDoABet.setDaemon(true);
         threadDoABet.start();
-        
+
         Timer t = new Timer();
+
         TimerTask tt = new TimerTask() {
             int time = seconds;
 
@@ -124,19 +129,22 @@ public class CLIView implements View {
             public void run() {
                 try {
                     if (time > 0) {
-                        System.out.println("Time remaining " + time + " seconds");
+                        if (time % 5 == 0)
+                            System.out.println("Time remaining " + time + " seconds");
                         time--;
                     } else {
+                        clearScreen();
                         System.out.println("Time's up");
                         t.cancel();
+
                         threadDoABet.stop();
-                        DoABetMessage doABetMessage = new DoABetMessage();
-                        doABetMessage.playerState = playerState;
-                        sendMessageToServer.sendBet(new DoABetMessage());
+                        sendMessageToServer.sendBet(playerState);
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
             }
         };
         t.scheduleAtFixedRate(tt, 0, 1000);

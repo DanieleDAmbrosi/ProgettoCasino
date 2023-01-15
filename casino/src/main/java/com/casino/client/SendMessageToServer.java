@@ -1,5 +1,9 @@
 package com.casino.client;
-import com.casino.comm.messages.*;;
+import java.util.ArrayList;
+
+import com.casino.comm.messages.*;
+import com.casino.comm.player.Bet;
+import com.casino.comm.player.PlayerState;;
 
 public class SendMessageToServer {
     private final ConnectionHandlerClientSide connectionHandlerClientSide;
@@ -12,8 +16,10 @@ public class SendMessageToServer {
         connectionHandlerClientSide.sendMessage(message);
     }
     
-    public void sendBet(DoABetMessage doABetMessage){
-
+    public void sendBet(PlayerState playerState){
+        DoABetMessage doABetMessage = new DoABetMessage();
+        doABetMessage.playerState = playerState;
+        connectionHandlerClientSide.sendMessage(doABetMessage);
     }
     public void joinGame(){
         JoinGameMessage joinGameMessage = new JoinGameMessage();

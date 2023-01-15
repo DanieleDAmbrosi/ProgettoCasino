@@ -1,6 +1,8 @@
 package com.casino.comm.player;
 
-public class Bet {
+import java.io.Serializable;
+
+public class Bet implements Serializable{
     private float money = 0.0f;
     private Box box = null;
 
