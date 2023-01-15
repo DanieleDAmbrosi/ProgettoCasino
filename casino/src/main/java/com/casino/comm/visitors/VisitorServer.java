@@ -2,9 +2,7 @@ package com.casino.comm.visitors;
 
 import java.io.IOException;
 
-import com.casino.comm.messages.DoABetMessage;
-import com.casino.comm.messages.JoinGameMessage;
-import com.casino.comm.messages.ResetConnectionMessage;
+import com.casino.comm.messages.*;
 import com.casino.server.ClientConnectionHandler;
 import com.casino.server.game.Game;
 
@@ -31,5 +29,8 @@ public class VisitorServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void visit(AckDoABet ackDoABet){
+
     }
 }

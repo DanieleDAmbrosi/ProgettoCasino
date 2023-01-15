@@ -19,6 +19,10 @@ public class SendMessageToServer {
         JoinGameMessage joinGameMessage = new JoinGameMessage();
         connectionHandlerClientSide.sendMessage(joinGameMessage);
     }
+
+    public void ackDoABet(){
+        
+    }
     
     
 }

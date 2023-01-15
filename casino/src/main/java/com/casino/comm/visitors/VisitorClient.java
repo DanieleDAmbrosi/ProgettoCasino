@@ -26,7 +26,7 @@ public class VisitorClient{
         view.resetConnection();
     } 
     public void visit(DoABetMessage doABetMessage){
-        view.doABet();
+        view.doABet(doABetMessage.playerState);
     }  
 
 }

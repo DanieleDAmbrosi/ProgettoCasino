@@ -6,6 +6,7 @@ import java.util.Scanner;
 import com.casino.comm.messages.*;
 import com.casino.comm.player.Bet;
 import com.casino.comm.player.Box;
+import com.casino.comm.player.PlayerState;
 
 public class CLIView implements View {
 
@@ -32,7 +33,7 @@ public class CLIView implements View {
     public void resetConnection() {
         clearScreen();
         System.out.println("DISCONNECTED");
-    }    
+    }
 
     @Override
     public void close() {
@@ -64,10 +65,12 @@ public class CLIView implements View {
         System.out.println("ecco la board");
     }
 
-    public void doABet() {
+    public void doABet(PlayerState playerState) {
         Thread thread = new Thread(() -> {
+            sendMessageToServer.ackDoABet();
             clearScreen();
             Scanner input = new Scanner(System.in);
+            System.out.println("Avaliable credit: " + playerState.cash + "$");
             while (true) {
                 System.out.println("Do you want to bet?");
                 System.out.println("[ 1 ] -> " + "YES");
@@ -78,26 +81,34 @@ public class CLIView implements View {
                 }
                 printBoard();
                 System.out.println("Do a bet:");
-                Bet bet = inputABet(input);
-                DoABetMessage doABetMessage = new DoABetMessage();
-                //doABetMessage.bet = bet;
-                sendMessageToServer.sendBet(doABetMessage);
+                if (playerState.addBet(inputABet(input)) == false) {
+                    System.out.println("Insufficient credit!");
+                    System.out.println("Avaliable credit: " + playerState.cash + "$");
+                }
             }
-
         });
         thread.setDaemon(true);
         thread.start();
 
     }
 
-    private void inputJoinGame(){
+    @Override
+    public void closeBets() {
+        Thread thread = new Thread(() -> {
+            clearScreen();
+            System.out.println()
+        });
+        
+    }
+
+    private void inputJoinGame() {
         Scanner input = new Scanner(System.in);
         while (true) {
-            System.out.println("Press [ 1 ] to play?");            
+            System.out.println("Press [ 1 ] to play?");
             if (inputNumber(input) == 1) {
                 System.out.println("The game is starting...");
                 break;
-            }            
+            }
         }
         sendMessageToServer.joinGame();
     }
@@ -165,5 +176,7 @@ public class CLIView implements View {
             }
         }
     }
+
+    
 
 }

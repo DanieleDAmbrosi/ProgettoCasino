@@ -1,6 +1,7 @@
 package com.casino.client;
 
 import com.casino.comm.messages.*;
+import com.casino.comm.player.PlayerState;
 
 /**
  * Interface that defines the methods used by both the CLI view and the GUI view
@@ -24,12 +25,20 @@ public interface View {
      * Ask to user to do a bet
      * 
      */
-    void doABet();
+    void doABet(PlayerState playerState);
+
+    /**
+     * Close bets
+     * 
+     */
+    void closeBets();
 
     /**
      * Close the connection
      * 
      */
     void close();
+
+    
     
 }
