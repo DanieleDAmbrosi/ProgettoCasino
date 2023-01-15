@@ -1,9 +1,9 @@
 package com.casino.comm.visitors;
+
 import com.casino.client.View;
 import com.casino.comm.messages.*;
 
-
-public class VisitorClient{
+public class VisitorClient {
     /**
      * View client's side
      */
@@ -18,15 +18,20 @@ public class VisitorClient{
         this.view = view;
     }
 
-    public void visit(Message message){
-        //view.doABet();
+    public void visit(Message message) {
+        // view.doABet();
     }
-    
-    public void visit(ResetConnectionMessage resetConnectionMessage){
+
+    public void visit(ResetConnectionMessage resetConnectionMessage) {
         view.resetConnection();
-    } 
-    public void visit(DoABetMessage doABetMessage){
-        view.doABet(doABetMessage.playerState);
-    }  
+    }
+
+    public void visit(DoABetMessage doABetMessage) {
+        view.doABet(doABetMessage.playerState, doABetMessage.timer);
+    }
+
+    /*public void visit(GiveMeBetsMessage giveMeBetsMessage) {
+        view.closeBets(giveMeBetsMessage.playerState);
+    }*/
 
 }

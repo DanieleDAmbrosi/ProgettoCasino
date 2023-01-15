@@ -6,6 +6,7 @@ import com.casino.comm.player.*;
 public class DoABetMessage extends Message {
 
     public PlayerState playerState;
+    public int timer;
 
     @Override
     public void accept(VisitorServer visitor) {

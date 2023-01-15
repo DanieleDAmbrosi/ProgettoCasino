@@ -2,11 +2,13 @@ package com.casino.client;
 
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.*;
 
 import com.casino.comm.messages.*;
 import com.casino.comm.player.Bet;
 import com.casino.comm.player.Box;
 import com.casino.comm.player.PlayerState;
+import com.casino.comm.utility.RemindTask;
 
 public class CLIView implements View {
 
@@ -65,7 +67,21 @@ public class CLIView implements View {
         System.out.println("ecco la board");
     }
 
-    public void doABet(PlayerState playerState) {
+    public void doABet(PlayerState playerState, int seconds) {
+
+        Thread threadTimer = new Thread(() -> {
+            RemindTask remindTask = new RemindTask(seconds);
+            Timer timer = new Timer();
+            timer.schedule(remindTask, 0, 0);
+            while(true){
+                if(remindTask.isRunning == false)
+                System.out.flush();
+                System.out.println("Bets are off");
+            }
+        });
+        threadTimer.setDaemon(true);
+        threadTimer.start();
+
         Thread thread = new Thread(() -> {
             sendMessageToServer.ackDoABet();
             clearScreen();
@@ -89,16 +105,17 @@ public class CLIView implements View {
         });
         thread.setDaemon(true);
         thread.start();
-
     }
 
     @Override
     public void closeBets() {
         Thread thread = new Thread(() -> {
             clearScreen();
-            System.out.println()
+            System.out.flush();
+            System.out.println("Bets are off");
         });
-        
+        thread.setDaemon(true);
+        thread.start();
     }
 
     private void inputJoinGame() {
@@ -176,7 +193,5 @@ public class CLIView implements View {
             }
         }
     }
-
-    
 
 }
