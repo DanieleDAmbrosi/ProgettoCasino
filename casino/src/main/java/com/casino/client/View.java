@@ -1,20 +1,17 @@
 package com.casino.client;
-
-import com.casino.comm.messages.*;
 import com.casino.comm.player.PlayerState;
-import com.casino.server.game.Player;
 
 /**
  * Interface that defines the methods used by both the CLI view and the GUI view
  */
 public interface View {
-
+    
     /**
      * Setter method for the SendMessageToServer object
      *
      * @param sendMessageToServer is the object to set
      */
-    void setSendMessageToServer(SendMessageToServer sendMessageToServer);
+    void setSendMessageToServer(SendMessageToServer sendMessageToServer);   
 
     /**
      * Force close connection
@@ -29,6 +26,12 @@ public interface View {
     void doABet(PlayerState playerState, int seconds);
 
     /**
+     * Ask the user if he want to start the game
+     * 
+     */
+    void welcome();
+
+    /**
      * Close bets
      * 
      */
@@ -40,6 +43,4 @@ public interface View {
      */
     void close();
 
-    
-    
 }

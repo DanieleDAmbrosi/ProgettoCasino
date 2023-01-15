@@ -18,22 +18,22 @@ public class VisitorServer {
         this.clientConnectionHandler = clientConnectionHandler;
     }
 
-    public void visit(ResetConnectionMessage resetConnectionMessage){
+    public void visit(ResetConnectionMessage resetConnectionMessage) {
         game.removePlayer(id, resetConnectionMessage);
     }
 
-    public void visit(JoinGameMessage joinGameMessage){
+    public void visit(JoinGameMessage joinGameMessage) {
         game.addPlayer(clientConnectionHandler, joinGameMessage.name, id);
         try {
             DoABetMessage doABetMessage = new DoABetMessage();
             doABetMessage.playerState = new PlayerState();
+            doABetMessage.playerState.cash = 1000;
+            doABetMessage.timer = 10;
             clientConnectionHandler.sendMessage(doABetMessage);
             System.out.println("Sent a message");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public void visit(AckDoABet ackDoABet){
 
-    }
 }

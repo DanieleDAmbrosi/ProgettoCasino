@@ -30,8 +30,5 @@ public class VisitorClient {
         view.doABet(doABetMessage.playerState, doABetMessage.timer);
     }
 
-    /*public void visit(GiveMeBetsMessage giveMeBetsMessage) {
-        view.closeBets(giveMeBetsMessage.playerState);
-    }*/
 
 }

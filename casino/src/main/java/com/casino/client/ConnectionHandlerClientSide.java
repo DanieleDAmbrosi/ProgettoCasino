@@ -59,6 +59,7 @@ public class ConnectionHandlerClientSide {
     public void listening() {
         SendMessageToServer sendMessageToServer = new SendMessageToServer(this);
         view.setSendMessageToServer(sendMessageToServer);
+        view.welcome();
         try {
             while (!closed) {
                 Message message = null;

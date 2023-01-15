@@ -8,7 +8,7 @@ import com.casino.comm.messages.*;
 import com.casino.comm.player.Bet;
 import com.casino.comm.player.Box;
 import com.casino.comm.player.PlayerState;
-import com.casino.comm.utility.RemindTask;
+import com.casino.comm.utility.*;
 
 public class CLIView implements View {
 
@@ -18,17 +18,25 @@ public class CLIView implements View {
      * Empty constructor
      */
     public CLIView() {
-        Thread thread = new Thread(() -> {
-            clearScreen();
-            inputJoinGame();
-        });
-        thread.setDaemon(true);
-        thread.start();
     }
 
     @Override
     public void setSendMessageToServer(SendMessageToServer sendMessageToServer) {
         this.sendMessageToServer = sendMessageToServer;
+    }
+
+    @Override
+    public void welcome() {
+        Thread thread = new Thread(() -> {
+            Scanner input = new Scanner(System.in);
+            clearScreen();
+            System.out.println("Press [ 1 ] to play");
+            inputOne(input);
+            System.out.println("The game is starting...");
+            sendMessageToServer.joinGame();
+        });
+        thread.setDaemon(true);
+        thread.start();
     }
 
     @Override
@@ -46,65 +54,118 @@ public class CLIView implements View {
      * This method is called to clear the console
      */
     private void clearScreen() {
-        final String os = System.getProperty("os.name");
-        if (os.contains("Windows")) {
-            try {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } catch (InterruptedException | IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                String[] commandStrings = { "clear" };
-                Runtime.getRuntime().exec(commandStrings);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        /*
+         * final String os = System.getProperty("os.name");
+         * if (os.contains("Windows")) {
+         * try {
+         * new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+         * } catch (InterruptedException | IOException e) {
+         * e.printStackTrace();
+         * }
+         * } else {
+         * try {
+         * String[] commandStrings = { "clear" };
+         * Runtime.getRuntime().exec(commandStrings);
+         * } catch (IOException e) {
+         * e.printStackTrace();
+         * }
+         * }
+         */
     }
 
     private void printBoard() {
-        System.out.println("ecco la board");
+        String s = "  3 6 9 12 15 18 21 24 27 30 33 36";
+        s += "\n\r0 2 5 8 11 14 17 20 23 26 29 32 35";
+        s += "\n\r  1 4 7 10 13 16 19 21 25 28 31 34\n\r";
+        System.out.println(s);
+        System.out.println("[ 0 to 36 ] the respective wheel's numbers");
+        System.out.println("[ 37 ] the numbers from 1 to 12");
+        System.out.println("[ 38 ] the numbers from 13 to 24");
+        System.out.println("[ 39 ] the numbers from 25 to 36");
+        System.out.println("[ 40 ] the numbers from 1 to 18");
+        System.out.println("[ 41 ] the numbers from 19 to 36");
+        System.out.println("[ 42 ] the black numbers");
+        System.out.println("[ 43 ] the red numbers");
+        System.out.println("[ 44 ] the even numbers");
+        System.out.println("[ 45 ] the odd numbers");
+        System.out.println("[ 46 ] the first column");
+        System.out.println("[ 47 ] the second column");
+        System.out.println("[ 48 ] the third column");
     }
 
     public void doABet(PlayerState playerState, int seconds) {
-
-        Thread threadTimer = new Thread(() -> {
-            RemindTask remindTask = new RemindTask(seconds);
-            Timer timer = new Timer();
-            timer.schedule(remindTask, 0, 0);
-            while(true){
-                if(remindTask.isRunning == false)
-                System.out.flush();
-                System.out.println("Bets are off");
-            }
-        });
-        threadTimer.setDaemon(true);
-        threadTimer.start();
-
-        Thread thread = new Thread(() -> {
+        Thread threadDoABet = new Thread(() -> {
             sendMessageToServer.ackDoABet();
             clearScreen();
             Scanner input = new Scanner(System.in);
-            System.out.println("Avaliable credit: " + playerState.cash + "$");
             while (true) {
-                System.out.println("Do you want to bet?");
-                System.out.println("[ 1 ] -> " + "YES");
-                System.out.println("[ 0 ] -> " + "NO");
-                if (inputYesOrNo(input) == 0) {
-                    System.out.println("Ok");
-                    break;
-                }
+                System.out.println("Avaliable credit: " + playerState.cash + "$");
+                System.out.println("Press [ 1 ] to bet");
+                inputOne(input);
+                clearScreen();
                 printBoard();
                 System.out.println("Do a bet:");
                 if (playerState.addBet(inputABet(input)) == false) {
                     System.out.println("Insufficient credit!");
                     System.out.println("Avaliable credit: " + playerState.cash + "$");
+                } else {
+                    System.out.println("Successful bet");
                 }
             }
         });
-        thread.setDaemon(true);
-        thread.start();
+        threadDoABet.setDaemon(true);
+        threadDoABet.start();
+        
+        Timer t = new Timer();
+        TimerTask tt = new TimerTask() {
+            int time = seconds;
+
+            @Override
+            public void run() {
+                try {
+                    if (time > 0) {
+                        System.out.println("Time remaining " + time + " seconds");
+                        time--;
+                    } else {
+                        System.out.println("Time's up");
+                        t.cancel();
+                        threadDoABet.stop();
+                        DoABetMessage doABetMessage = new DoABetMessage();
+                        doABetMessage.playerState = playerState;
+                        sendMessageToServer.sendBet(new DoABetMessage());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.scheduleAtFixedRate(tt, 0, 1000);
+
+        /*
+         * Thread threadTimer = new Thread() {
+         * 
+         * @Override
+         * public void run() {
+         * Timer timer = new Timer();
+         * RemindTask remindTask = new RemindTask(seconds, threadDoABet);
+         * timer.schedule(remindTask, 0, 1000);
+         * while (true) {
+         * if (remindTask.isRunning == false) {
+         * timer.cancel();
+         * break;
+         * }
+         * }
+         * 
+         * DoABetMessage doABetMessage = new DoABetMessage();
+         * doABetMessage.playerState = playerState;
+         * sendMessageToServer.sendBet(new DoABetMessage());
+         * }
+         * };
+         */
+
+        // threadTimer.setDaemon(true);
+        // threadTimer.start();
+
     }
 
     @Override
@@ -122,12 +183,26 @@ public class CLIView implements View {
         Scanner input = new Scanner(System.in);
         while (true) {
             System.out.println("Press [ 1 ] to play?");
-            if (inputNumber(input) == 1) {
-                System.out.println("The game is starting...");
-                break;
-            }
+            inputOne(input);
+            System.out.println("The game is starting...");
+            break;
+
         }
         sendMessageToServer.joinGame();
+    }
+
+    private void inputOne(Scanner input) {
+        try {
+            System.in.read(new byte[System.in.available()]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int intInputValue;
+        intInputValue = inputNumber(input);
+        while (intInputValue != 1) {
+            System.out.println("Repeat, the input is wrong");
+            intInputValue = inputNumber(input);
+        }
     }
 
     private int inputYesOrNo(Scanner input) {
@@ -138,7 +213,7 @@ public class CLIView implements View {
         }
         int intInputValue;
         intInputValue = inputNumber(input);
-        while (intInputValue != 1 || intInputValue != 0) {
+        while (intInputValue != 1 && intInputValue != 0) {
             System.out.println("Repeat, the input is wrong");
             intInputValue = inputNumber(input);
         }
@@ -156,7 +231,7 @@ public class CLIView implements View {
         System.out.println("What box?");
         int intInputBox;
         intInputBox = inputNumber(input);
-        while (intInputBox < 0 || intInputBox > 50) {
+        while (intInputBox < 0 || intInputBox > 48) {
             System.out.println("Repeat, the input is wrong");
             intInputBox = inputNumber(input);
         }
