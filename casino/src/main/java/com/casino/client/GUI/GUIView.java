@@ -3,8 +3,7 @@ package com.casino.client.GUI;
 import com.casino.client.SendMessageToServer;
 import com.casino.client.View;
 import com.casino.comm.player.PlayerState;
-//import javafx.fxml.Initializable;
-
+import javafx.*;
 
 public class GUIView implements  View{
 
