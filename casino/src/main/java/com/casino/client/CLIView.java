@@ -9,6 +9,7 @@ import com.casino.comm.player.Bet;
 import com.casino.comm.player.Box;
 import com.casino.comm.player.PlayerState;
 import com.casino.comm.utility.*;
+import java.awt.event.*;
 
 public class CLIView implements View {
 
@@ -98,59 +99,84 @@ public class CLIView implements View {
     }
 
     public void doABet(PlayerState playerState, long endTimer) {
-        long timer = endTimer - System.currentTimeMillis();
-        System.out.println("Time remaining " + (int) (timer / 1000) + " seconds");
-        Thread threadDoABet = new Thread(() -> {
-            sendMessageToServer.ackDoABet();
-            clearScreen();
-            Scanner input = new Scanner(System.in);
-            while (true) {
-                System.out.println("Avaliable credit: " + playerState.cash + "$");
-                System.out.println("Press [ 1 ] to bet");
-                inputOne(input);
-                clearScreen();
-                printBoard();
-                System.out.println("Do a bet:");
-                if (playerState.addBet(inputABet(input)) == false) {
-                    System.out.println("Insufficient credit!");
-                    System.out.println("Avaliable credit: " + playerState.cash + "$");
-                } else {
-                    System.out.println("Successful bet");
-                }
-            }
-        });
-        threadDoABet.setDaemon(true);
-        threadDoABet.start();
 
-        Timer t = new Timer();
-        TimerTask tt = new TimerTask() {
+        Thread threadDoABet = new Thread() {
+
+            long timer = endTimer - System.currentTimeMillis();
+            Scanner input = new Scanner(System.in);
+            boolean canBet = true;
+
+            TimerTask tt = new TimerTask() {
+                @Override
+                public void run() {
+                    System.out.println("Time's up!");
+                    input.close();
+                    canBet = false;
+                }
+            };
 
             @Override
             public void run() {
-                try {
-                    if (timer > 0) {
-                        if (timer % 5 == 0)
-                            System.out.println("Time remaining " + timer + " seconds");
-                            //timer--;
-                    } else {
+                Timer t = new Timer();
+                t.schedule(tt, timer);
+                System.out.println("Time remaining " + (int) (timer / 1000) + " seconds");
+                sendMessageToServer.ackDoABet();
+                clearScreen();
+
+                while (canBet) {
+                    try {
+                        System.out.println("Avaliable credit: " + playerState.cash + "$");
+                        System.out.println("Press [ 1 ] to bet");
+                        inputOne(input);
                         clearScreen();
-                        System.out.println("Time's up");
-                        t.cancel();
-
-                        threadDoABet.stop();
-                        sendMessageToServer.sendBet(playerState);
-
+                        printBoard();
+                        System.out.println("Do a bet:");
+                        if (playerState.addBet(inputABet(input)) == false) {
+                            System.out.println("Insufficient credit!");
+                            System.out.println("Avaliable credit: " + playerState.cash + "$");
+                        } else {
+                            System.out.println("Successful bet");
+                        }
+                    } catch (Exception e) {
+                        canBet = false;
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-
             }
-        };
-        t.scheduleAtFixedRate(tt, 0, 1000);
 
-        /*
-         * Thread threadTimer = new Thread() {
+        };
+        threadDoABet.setDaemon(true);
+        threadDoABet.start();
+        /*/*
+         * Timer t = new Timer();
+         * TimerTask tt = new TimerTask() {
+         * 
+         * @Override
+         * public void run() {
+         * try {
+         * if (timer > 0) {
+         * if (timer % 5 == 0)
+         * System.out.println("Time remaining " + timer + " seconds");
+         * //timer--;
+         * } else {
+         * clearScreen();
+         * System.out.println("Time's up");
+         * t.cancel();
+         * 
+         * threadDoABet.stop();
+         * sendMessageToServer.sendBet(playerState);
+         * 
+         * }
+         * } catch (Exception e) {
+         * e.printStackTrace();
+         * }
+         * 
+         * }
+         * };
+         * t.scheduleAtFixedRate(tt, 0, 1000);
+         */
+
+        /*     
+        Thread threadTimer = new Thread() {
          * 
          * @Override
          * public void run() {
@@ -169,10 +195,7 @@ public class CLIView implements View {
          * sendMessageToServer.sendBet(new DoABetMessage());
          * }
          * };
-         */
-
-        // threadTimer.setDaemon(true);
-        // threadTimer.start();
+         */     
 
     }
 

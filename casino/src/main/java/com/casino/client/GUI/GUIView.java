@@ -344,12 +344,6 @@ public class GUIView extends javax.swing.JFrame implements WindowListener, View 
     }
 
     @Override
-    public void doABet(PlayerState playerState, int seconds) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void welcome() {
         // TODO Auto-generated method stub
 
@@ -422,6 +416,12 @@ public class GUIView extends javax.swing.JFrame implements WindowListener, View 
        
   
 }
+
+    @Override
+    public void doABet(PlayerState playerState, long endTimer) {
+        // TODO Auto-generated method stub
+        
+    }
 
 }
 
