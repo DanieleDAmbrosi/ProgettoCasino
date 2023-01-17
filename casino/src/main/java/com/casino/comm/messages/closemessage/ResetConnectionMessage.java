@@ -1,5 +1,6 @@
-package com.casino.comm.messages;
+package com.casino.comm.messages.closemessage;
 
+import com.casino.comm.messages.Message;
 import com.casino.comm.visitors.VisitorClient;
 import com.casino.comm.visitors.VisitorServer;
 
