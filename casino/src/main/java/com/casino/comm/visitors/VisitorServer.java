@@ -5,7 +5,6 @@ import java.io.IOException;
 import com.casino.comm.messages.*;
 import com.casino.comm.messages.closemessage.ResetConnectionMessage;
 import com.casino.comm.player.Bet;
-import com.casino.comm.player.PlayerState;
 import com.casino.server.ClientConnectionHandler;
 import com.casino.server.game.Game;
 
@@ -26,22 +25,10 @@ public class VisitorServer {
 
     public void visit(JoinGameMessage joinGameMessage) {
         game.addPlayer(clientConnectionHandler, joinGameMessage.name, id);
-        try {
-            DoABetMessage doABetMessage = new DoABetMessage();
-            doABetMessage.playerState = new PlayerState();
-            doABetMessage.playerState.cash = 1000;
-            doABetMessage.EndTimer = System.currentTimeMillis() + 10000;
-            clientConnectionHandler.sendMessage(doABetMessage);
-            System.out.println("Sent a message");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
+
     public void visit(DoABetMessage doABetMessage){
-        for(Bet bet : doABetMessage.playerState.bets){
-            System.out.println("bet: " + bet.getMoney() + "$ on " + bet.getBox().toString());
-        }
-        
+            game.updatePlayer(id, doABetMessage);
     }
     public void visit(SendRouletteResultMessage sendRouletteResultMessage){
 

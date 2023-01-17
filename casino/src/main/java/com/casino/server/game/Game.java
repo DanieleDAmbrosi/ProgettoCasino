@@ -18,20 +18,35 @@ public class Game extends Thread{
     //private ArrayList<Player> players = new ArrayList<>();
     private HashMap<String, Player> players = new HashMap<>();
     private boolean running;
-    private final long BET_TIME = 60 * 1000;
-    private final long WAIT_FOR_BET = 80 * 1000;
+    private final long TIME_SEC = 17;
+    private final long BET_TIME = TIME_SEC * 1000;
+    private final long WAIT_FOR_BET = (TIME_SEC + 20) * 1000;
+    private final Timer t = new Timer();  
+    private final TimerTask tt = new TimerTask() {
+        @Override
+        public void run() {
+            System.out.println("Sending bet requests");
+            sendBroadcast(new DoABetMessage());
+        }
+    };
 
     public Game(){
         running = true;
     }
 
     public void addPlayer(ClientConnectionHandler client, String name, String id){
-        Player player = new Player(client, new PlayerState(), name);
+        PlayerState initialPlayerState = new PlayerState();
+        initialPlayerState.cash = 1000;
+        Player player = new Player(client, initialPlayerState, name);
+        players.put(id, player);
         System.out.println("Player " + player + " joined the lobby");
+        System.out.println("Name: " + player.getName());
     }
 
     public void removePlayer(String id, ResetConnectionMessage resetConnectionMessage) {
-        System.out.println("Player " + players.remove(id).toString() + " left the lobby");
+        Player player = players.remove(id);
+        System.out.println("Player " + player + " left the lobby");
+        System.out.println("Name: " + player.getName());
     }
 
     public Player getPlayer(String id){
@@ -40,13 +55,6 @@ public class Game extends Thread{
 
     @Override
     public void run() {
-        Timer t = new Timer();  
-        TimerTask tt = new TimerTask() {
-            @Override
-            public void run() {
-                sendBroadcast(new DoABetMessage());
-            }
-        };
         t.scheduleAtFixedRate(tt, 0, WAIT_FOR_BET);
         while (running) {
             
@@ -55,6 +63,8 @@ public class Game extends Thread{
     }
 
     private void stopGame(){
+        sendBroadcast(new ResetConnectionMessage());
+        players = new HashMap<>();
         System.out.println("Game ended");
     }
 
@@ -71,5 +81,10 @@ public class Game extends Thread{
                 e.printStackTrace();
             }
         }
+    }
+
+    public void updatePlayer(String id, DoABetMessage doABetMessage) {
+        PlayerState temp = doABetMessage.playerState;
+        PlayerState playerState = players.get(id).getPlayerState();
     }
 }
