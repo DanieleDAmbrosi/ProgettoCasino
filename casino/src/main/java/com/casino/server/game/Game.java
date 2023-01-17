@@ -64,10 +64,8 @@ public class Game extends Thread {
         running = true;
     }
 
-    public void addPlayer(ClientConnectionHandler client, String name, String id) {
-        PlayerState initialPlayerState = new PlayerState();
-        initialPlayerState.cash = 1000;
-        Player player = new Player(client, initialPlayerState, name);
+    public void addPlayer(ClientConnectionHandler client, String name, String id) {       
+        Player player = new Player(client, name);
         players.put(id, player);
         System.out.println("Player " + player + " joined the lobby");
         System.out.println("Name: " + player.getName());
@@ -113,7 +111,11 @@ public class Game extends Thread {
                         sendRouletteResultMessage.winningNumber = winningNumber;
                         float winningCash = getWinningCash(player.getValue().getBets());
                         sendRouletteResultMessage.winningCash = winningCash;
-                        player.getValue().getPlayerState().cash += winningCash;
+                        float newCash = (winningCash + player.getValue().getPlayerState().cash);
+                        player.getValue().setPlayerStateCash(newCash);
+                        System.out.println("new player ' " + player.getValue().getName() + " ' cash: " + newCash);
+                        System.out.println("new player state ' " + player.getValue().getName() + " ' cash: "
+                                + player.getValue().getPlayerState().cash);
                         player.getValue().getClientConnectionHandler().sendMessage(sendRouletteResultMessage);
                     }
                 } else
@@ -161,6 +163,12 @@ public class Game extends Thread {
 
     public void updatePlayer(String id, DoABetMessage doABetMessage) {
         players.get(id).setBets(doABetMessage.bets);
-        players.get(id).getPlayerState().playing = true;
+        players.get(id).setPlayerStateCash(doABetMessage.playerState.cash);
+        players.get(id).setPlaying(true);
+        for (Bet bet : doABetMessage.bets) {
+            System.out.println(
+                    players.get(id).getName() + " ha puntato " + bet.getMoney() + "$ su " + bet.getBox().getNumber());
+        }
+
     }
 }

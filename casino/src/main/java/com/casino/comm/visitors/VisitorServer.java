@@ -1,10 +1,6 @@
 package com.casino.comm.visitors;
-
-import java.io.IOException;
-
 import com.casino.comm.messages.*;
 import com.casino.comm.messages.closemessage.ResetConnectionMessage;
-import com.casino.comm.player.Bet;
 import com.casino.server.ClientConnectionHandler;
 import com.casino.server.game.Game;
 
@@ -29,9 +25,6 @@ public class VisitorServer {
 
     public void visit(DoABetMessage doABetMessage){
             game.updatePlayer(id, doABetMessage);
-    }
-    public void visit(SendRouletteResultMessage sendRouletteResultMessage){
-
-    }
+    }    
 
 }

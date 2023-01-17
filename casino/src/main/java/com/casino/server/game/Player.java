@@ -15,11 +15,18 @@ public class Player {
     public Player(ClientConnectionHandler clientConnectionHandler, PlayerState playerState, String name) {
         this.clientConnectionHandler = clientConnectionHandler;
         this.playerState = playerState;
+        playerState.cash = 1000;
+        this.name = name;
+    }
+
+    public Player(ClientConnectionHandler clientConnectionHandler, String name) {
+        this.clientConnectionHandler = clientConnectionHandler;
+        playerState=new PlayerState(1000);
         this.name = name;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return name;
     }
 
@@ -35,11 +42,19 @@ public class Player {
         return name;
     }
 
-    public void setBets(ArrayList<Bet> bets){
+    public void setBets(ArrayList<Bet> bets) {
         this.bets = bets;
     }
 
-    public ArrayList<Bet> getBets(){
+    public ArrayList<Bet> getBets() {
         return bets;
+    }
+
+    public void setPlayerStateCash(float cash) {
+        playerState.cash = cash;
+    }
+
+    public void setPlaying(boolean b) {
+        playerState.playing = b;
     }
 }

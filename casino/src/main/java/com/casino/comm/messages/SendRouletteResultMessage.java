@@ -10,7 +10,7 @@ public class SendRouletteResultMessage extends Message{
 
     @Override
     public void accept(VisitorServer visitor) {
-        visitor.visit(this);
+        throw new UnsupportedOperationException();
         
     }
 

@@ -110,12 +110,12 @@ public class CLIView implements View {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if(winningCash > 0){
-                   System.out.println("You win " + winningCash + "$"); 
-                }else{
+                if (winningCash > 0) {
+                    System.out.println("You win " + winningCash + "$");
+                } else {
                     System.out.println("You didn't win");
                 }
-                
+
             }
         };
         thread.setDaemon(true);
@@ -124,19 +124,16 @@ public class CLIView implements View {
     }
 
     public void doABet(DoABetMessage doABetMessage) {
-
+        canInput = true;
         Thread threadDoABet = new Thread() {
 
             long timer = doABetMessage.EndTimer - System.currentTimeMillis();
-            Scanner input = new Scanner(System.in);
             boolean canBet = true;
-
             TimerTask tt = new TimerTask() {
                 @Override
                 public void run() {
                     System.out.println("Time's up!");
                     sendMessageToServer.sendBet(doABetMessage.bets);
-                    // input.close();
                     canBet = false;
                     canInput = false;
 
@@ -147,10 +144,9 @@ public class CLIView implements View {
             public void run() {
                 canInput = true;
                 Timer t = new Timer();
-                t.schedule(tt, timer);                
+                t.schedule(tt, timer);
                 clearScreen();
-                System.out.println("Time remaining " + (int) (timer / 1000) + " seconds");
-
+                System.out.println("Time remaining " + Math.round(timer / 1000) + " seconds");                
                 while (canBet) {
                     try {
                         System.out.println("Avaliable credit: " + doABetMessage.playerState.cash + "$");
@@ -169,6 +165,7 @@ public class CLIView implements View {
                         canBet = false;
                     }
                 }
+                t.cancel();                
             }
 
         };
@@ -317,8 +314,8 @@ public class CLIView implements View {
             String inputString = input.nextLine();
             try {
                 intInputValue = Integer.parseInt(inputString);
-                if(intInputValue == 0){
-                    sendMessageToServer.sendResetConnection();
+                if (intInputValue == 0) {
+                    sendMessageToServer.sendResetConnection();                    
                 }
                 return intInputValue;
             } catch (NumberFormatException ne) {
