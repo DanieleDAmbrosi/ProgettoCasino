@@ -31,7 +31,7 @@ public interface View {
      */
     void welcome();
 
-    void showResults(int winnerNumber);
+    void showResults(int winnerNumber, float winningCash);
     /**
      * Close bets
      * 

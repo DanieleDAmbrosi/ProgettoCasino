@@ -99,8 +99,28 @@ public class CLIView implements View {
         System.out.println("[ 48 ] the third column\n\r");
     }
 
-    public void showResults(int winningNumber) {
-        System.out.println("The winning number is " + winningNumber);
+    @Override
+    public void showResults(int winnerNumber, float winningCash) {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                System.out.println("The winning number is: " + winnerNumber);
+                try {
+                    sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if(winningCash > 0){
+                   System.out.println("You win " + winningCash + "$"); 
+                }else{
+                    System.out.println("You didn't win");
+                }
+                
+            }
+        };
+        thread.setDaemon(true);
+        thread.start();
+
     }
 
     public void doABet(PlayerState playerState, long endTimer) {
@@ -116,7 +136,7 @@ public class CLIView implements View {
                 public void run() {
                     System.out.println("Time's up!");
                     sendMessageToServer.sendBet(playerState);
-                    //input.close();
+                    // input.close();
                     canBet = false;
                     canInput = false;
 
@@ -234,9 +254,9 @@ public class CLIView implements View {
         }
     }
 
-    private String inputString(){
+    private String inputString() {
         String stringValue = input.nextLine();
-        return stringValue;        
+        return stringValue;
     }
 
     private int inputYesOrNo() {

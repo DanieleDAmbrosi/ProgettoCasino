@@ -350,7 +350,7 @@ public class GUIView extends javax.swing.JFrame implements WindowListener, View 
     }
 
     @Override
-    public void showResults(int winnerNumber) {
+    public void showResults(int winnerNumber, float winningCash) {
         // TODO Auto-generated method stub
 
     }
