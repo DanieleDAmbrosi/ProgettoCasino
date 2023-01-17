@@ -27,6 +27,6 @@ public class VisitorClient {
         view.doABet(doABetMessage.playerState, doABetMessage.EndTimer);
     }
     public void visit(SendRouletteResultMessage sendRouletteResultMessage){
-        view.showResults(sendRouletteResultMessage.winningNumber);
+        view.showResults(sendRouletteResultMessage.winningNumber,sendRouletteResultMessage.winningCash);
     }
 }
