@@ -3,6 +3,7 @@ package com.casino.comm.visitors;
 import java.io.IOException;
 
 import com.casino.comm.messages.*;
+import com.casino.comm.messages.closemessage.ResetConnectionMessage;
 import com.casino.comm.player.Bet;
 import com.casino.comm.player.PlayerState;
 import com.casino.server.ClientConnectionHandler;
@@ -44,10 +45,6 @@ public class VisitorServer {
     }
     public void visit(SendRouletteResultMessage sendRouletteResultMessage){
 
-    }
-
-    public void visit(CloseConnectionMessage closeConnectionMessage) {
-        game.removePlayer(id, closeConnectionMessage);
     }
 
 }

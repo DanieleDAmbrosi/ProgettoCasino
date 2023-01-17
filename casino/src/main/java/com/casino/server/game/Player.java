@@ -18,4 +18,16 @@ public class Player {
     public String toString(){
         return name;
     }
+
+    public ClientConnectionHandler getClientConnectionHandler() {
+        return clientConnectionHandler;
+    }
+
+    public PlayerState getPlayerState() {
+        return playerState;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

@@ -1,6 +1,8 @@
 package com.casino.client;
 
 import com.casino.comm.messages.*;
+import com.casino.comm.messages.closemessage.ResetConnectionMessage;
+
 import java.io.*;
 import java.net.Socket;
 import com.casino.comm.visitors.VisitorClient;

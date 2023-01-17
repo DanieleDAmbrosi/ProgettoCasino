@@ -2,6 +2,7 @@ package com.casino.comm.visitors;
 
 import com.casino.client.View;
 import com.casino.comm.messages.*;
+import com.casino.comm.messages.closemessage.ResetConnectionMessage;
 
 public class VisitorClient {
     /**
@@ -31,9 +32,5 @@ public class VisitorClient {
 
     public void visit(JoinGameMessage joinGameMessage) {
     }
-
-    public void visit(CloseConnectionMessage closeConnectionMessage) {
-    }
-
 
 }

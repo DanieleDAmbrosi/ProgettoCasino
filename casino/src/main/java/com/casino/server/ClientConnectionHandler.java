@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.util.UUID;
 
 import com.casino.comm.messages.*;
-import com.casino.comm.messages.CloseConnectionMessage;
+import com.casino.comm.messages.closemessage.ResetConnectionMessage;
 import com.casino.comm.visitors.VisitorServer;
 import com.casino.server.game.Game;
 
@@ -47,18 +47,18 @@ public class ClientConnectionHandler extends Thread{
             } catch (ClassNotFoundException | IOException e) {
                 running = false;
             }
-            if(genericMessage instanceof ResetConnectionMessage) {
+            if(isACloseMessage(genericMessage)) {
                 close((ResetConnectionMessage) genericMessage);
-                running = false;
-            }
-            if(genericMessage instanceof CloseConnectionMessage){
-                close(CloseConnectionMessage closeConnectionMessage);
                 running = false;
             }
             if(genericMessage != null) genericMessage.accept(visitorServer);
         }
         if(!socket.isClosed())
             forceClose();
+    }
+
+    private boolean isACloseMessage(Message genericMessage) {
+        return genericMessage instanceof ResetConnectionMessage;
     }
 
     private void close(ResetConnectionMessage resetConnectionMessage) {
