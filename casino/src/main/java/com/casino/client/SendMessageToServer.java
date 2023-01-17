@@ -20,8 +20,9 @@ public class SendMessageToServer {
         doABetMessage.playerState = playerState;
         connectionHandlerClientSide.sendMessage(doABetMessage);
     }
-    public void joinGame(){
+    public void joinGame(String username){
         JoinGameMessage joinGameMessage = new JoinGameMessage();
+        joinGameMessage.name = username;
         connectionHandlerClientSide.sendMessage(joinGameMessage);
     }
 

@@ -14,6 +14,8 @@ import java.awt.event.*;
 public class CLIView implements View {
 
     private SendMessageToServer sendMessageToServer;
+    private final Scanner input = new Scanner(System.in);
+    private boolean canInput = true;
 
     /**
      * Empty constructor
@@ -29,12 +31,15 @@ public class CLIView implements View {
     @Override
     public void welcome() {
         Thread thread = new Thread(() -> {
-            Scanner input = new Scanner(System.in);
             clearScreen();
+            System.out.println("Insert a username: ");
+            String username = inputString();
+            clearScreen();
+            System.out.println("Hi " + username);
             System.out.println("Press [ 1 ] to play");
-            inputOne(input);
+            inputOne();
             System.out.println("The game is starting...");
-            sendMessageToServer.joinGame();
+            sendMessageToServer.joinGame(username);
         });
         thread.setDaemon(true);
         thread.start();
@@ -110,29 +115,32 @@ public class CLIView implements View {
                 @Override
                 public void run() {
                     System.out.println("Time's up!");
-                    input.close();
-                    canBet = false;
                     sendMessageToServer.sendBet(playerState);
+                    //input.close();
+                    canBet = false;
+                    canInput = false;
+
                 }
             };
 
             @Override
             public void run() {
-                Timer t = new Timer();                                
+                canInput = true;
+                Timer t = new Timer();
                 t.schedule(tt, timer);
-                System.out.println("Time remaining " + (int) (timer / 1000) + " seconds");
                 sendMessageToServer.ackDoABet();
                 clearScreen();
+                System.out.println("Time remaining " + (int) (timer / 1000) + " seconds");
 
                 while (canBet) {
                     try {
                         System.out.println("Avaliable credit: " + playerState.cash + "$");
                         System.out.println("Press [ 1 ] to bet");
-                        inputOne(input);
+                        inputOne();
                         clearScreen();
                         printBoard();
                         System.out.println("Do a bet:");
-                        if (playerState.addBet(inputABet(input)) == false) {
+                        if (playerState.addBet(inputABet()) == false) {
                             System.out.println("Insufficient credit!");
                             System.out.println("Avaliable credit: " + playerState.cash + "$");
                         } else {
@@ -147,7 +155,8 @@ public class CLIView implements View {
         };
         threadDoABet.setDaemon(true);
         threadDoABet.start();
-        /*/*
+        /*
+         * /*
          * Timer t = new Timer();
          * TimerTask tt = new TimerTask() {
          * 
@@ -176,8 +185,8 @@ public class CLIView implements View {
          * t.scheduleAtFixedRate(tt, 0, 1000);
          */
 
-        /*     
-        Thread threadTimer = new Thread() {
+        /*
+         * Thread threadTimer = new Thread() {
          * 
          * @Override
          * public void run() {
@@ -196,7 +205,7 @@ public class CLIView implements View {
          * sendMessageToServer.sendBet(new DoABetMessage());
          * }
          * };
-         */     
+         */
 
     }
 
@@ -211,36 +220,41 @@ public class CLIView implements View {
         thread.start();
     }
 
-    private void inputOne(Scanner input) {
+    private void inputOne() {
         try {
             System.in.read(new byte[System.in.available()]);
         } catch (IOException e) {
             e.printStackTrace();
         }
         int intInputValue;
-        intInputValue = inputNumber(input);
-        while (intInputValue != 1) {
+        intInputValue = inputNumber();
+        while (intInputValue != 1 && canInput) {
             System.out.println("Repeat, the input is wrong");
-            intInputValue = inputNumber(input);
+            intInputValue = inputNumber();
         }
     }
 
-    private int inputYesOrNo(Scanner input) {
+    private String inputString(){
+        String stringValue = input.nextLine();
+        return stringValue;        
+    }
+
+    private int inputYesOrNo() {
         try {
             System.in.read(new byte[System.in.available()]);
         } catch (IOException e) {
             e.printStackTrace();
         }
         int intInputValue;
-        intInputValue = inputNumber(input);
+        intInputValue = inputNumber();
         while (intInputValue != 1 && intInputValue != 0) {
             System.out.println("Repeat, the input is wrong");
-            intInputValue = inputNumber(input);
+            intInputValue = inputNumber();
         }
         return intInputValue;
     }
 
-    private Bet inputABet(Scanner input) {
+    private Bet inputABet() {
 
         try {
             System.in.read(new byte[System.in.available()]);
@@ -250,28 +264,30 @@ public class CLIView implements View {
 
         System.out.println("What box?");
         int intInputBox;
-        intInputBox = inputNumber(input);
-        while (intInputBox < 0 || intInputBox > 48) {
+        intInputBox = inputNumber();
+        while ((intInputBox < 0 || intInputBox > 48) && canInput) {
             System.out.println("Repeat, the input is wrong");
-            intInputBox = inputNumber(input);
+            intInputBox = inputNumber();
         }
         Box box = new Box(intInputBox);
 
         System.out.println("How much money?");
         int intInputCash;
-        intInputCash = inputNumber(input);
-        while (intInputCash < 10 || intInputCash > 1000) {
+        intInputCash = inputNumber();
+        while ((intInputCash < 10 || intInputCash > 1000) && canInput) {
             System.out.println("Repeat, the input is wrong");
-            intInputCash = inputNumber(input);
+            intInputCash = inputNumber();
         }
         Bet bet = new Bet();
         bet.setBox(box);
         bet.setMoney(intInputCash);
-
-        return bet;
+        if (canInput)
+            return bet;
+        else
+            return null;
     }
 
-    private int inputNumber(Scanner input) {
+    private int inputNumber() {
         try {
             System.in.read(new byte[System.in.available()]);
         } catch (IOException e) {

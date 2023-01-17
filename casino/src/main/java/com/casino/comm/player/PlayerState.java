@@ -9,6 +9,8 @@ public class PlayerState implements Serializable {
     public boolean playing = false;
 
     public boolean addBet(Bet bet) {
+        if (bet == null)
+            return false;
         if (cash - bet.getMoney() < 0)
             return false;
         cash -= bet.getMoney();
