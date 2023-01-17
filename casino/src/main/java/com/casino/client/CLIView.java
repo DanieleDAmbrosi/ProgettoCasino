@@ -97,7 +97,9 @@ public class CLIView implements View {
         System.out.println("The winning number is " + winningNumber);
     }
 
-    public void doABet(PlayerState playerState, int seconds) {
+    public void doABet(PlayerState playerState, long endTimer) {
+        long timer = endTimer - System.currentTimeMillis();
+        System.out.println("Time remaining " + (int) (timer / 1000) + " seconds");
         Thread threadDoABet = new Thread(() -> {
             sendMessageToServer.ackDoABet();
             clearScreen();
@@ -121,17 +123,15 @@ public class CLIView implements View {
         threadDoABet.start();
 
         Timer t = new Timer();
-
         TimerTask tt = new TimerTask() {
-            int time = seconds;
 
             @Override
             public void run() {
                 try {
-                    if (time > 0) {
-                        if (time % 5 == 0)
-                            System.out.println("Time remaining " + time + " seconds");
-                        time--;
+                    if (timer > 0) {
+                        if (timer % 5 == 0)
+                            System.out.println("Time remaining " + timer + " seconds");
+                            //timer--;
                     } else {
                         clearScreen();
                         System.out.println("Time's up");
@@ -186,7 +186,6 @@ public class CLIView implements View {
         thread.setDaemon(true);
         thread.start();
     }
-
 
     private void inputOne(Scanner input) {
         try {

@@ -23,7 +23,7 @@ public interface View {
      * Ask to user to do a bet
      * 
      */
-    void doABet(PlayerState playerState, int seconds);
+    void doABet(PlayerState playerState, long endTimer);
 
     /**
      * Ask the user if he want to start the game

@@ -29,7 +29,7 @@ public class VisitorServer {
             DoABetMessage doABetMessage = new DoABetMessage();
             doABetMessage.playerState = new PlayerState();
             doABetMessage.playerState.cash = 1000;
-            doABetMessage.timer = 10;
+            doABetMessage.EndTimer = System.currentTimeMillis() + 10000;
             clientConnectionHandler.sendMessage(doABetMessage);
             System.out.println("Sent a message");
         } catch (IOException e) {
