@@ -112,12 +112,13 @@ public class CLIView implements View {
                     System.out.println("Time's up!");
                     input.close();
                     canBet = false;
+                    sendMessageToServer.sendBet(playerState);
                 }
             };
 
             @Override
             public void run() {
-                Timer t = new Timer();
+                Timer t = new Timer();                                
                 t.schedule(tt, timer);
                 System.out.println("Time remaining " + (int) (timer / 1000) + " seconds");
                 sendMessageToServer.ackDoABet();
