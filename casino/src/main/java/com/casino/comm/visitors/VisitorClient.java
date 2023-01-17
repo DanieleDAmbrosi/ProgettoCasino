@@ -30,7 +30,10 @@ public class VisitorClient {
         view.showResults(sendRouletteResultMessage.winningNumber);
     }
 
+<<<<<<< Updated upstream
     public void visit(JoinGameMessage joinGameMessage) {
     }
 
+=======
+>>>>>>> Stashed changes
 }

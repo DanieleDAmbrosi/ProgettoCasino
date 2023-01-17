@@ -72,8 +72,10 @@ public class ConnectionHandlerClientSide {
                     view.close();
                 }
 
-                if (message instanceof ResetConnectionMessage)
+                if (message instanceof ResetConnectionMessage){
                     closed = true;
+                    view.close();
+                }
 
                 if (message != null)
                     message.accept(new VisitorClient(view));
