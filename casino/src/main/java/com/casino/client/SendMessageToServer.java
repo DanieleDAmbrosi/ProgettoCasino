@@ -2,6 +2,7 @@ package com.casino.client;
 import java.util.ArrayList;
 
 import com.casino.comm.messages.*;
+import com.casino.comm.messages.closemessage.ResetConnectionMessage;
 import com.casino.comm.player.Bet;
 
 public class SendMessageToServer {
@@ -18,6 +19,7 @@ public class SendMessageToServer {
     public void sendBet(ArrayList<Bet> bets){
         DoABetMessage doABetMessage = new DoABetMessage();
         doABetMessage.bets = bets;
+        //doABetMessage.playerState.playing = true;
         connectionHandlerClientSide.sendMessage(doABetMessage);
     }
     public void joinGame(String username){
@@ -26,8 +28,8 @@ public class SendMessageToServer {
         connectionHandlerClientSide.sendMessage(joinGameMessage);
     }
 
-    public void ackDoABet(){
-        
+    public void sendResetConnection(){
+        connectionHandlerClientSide.sendMessage(new ResetConnectionMessage());
     }
     
     

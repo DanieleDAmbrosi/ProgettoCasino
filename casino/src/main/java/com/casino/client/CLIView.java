@@ -147,15 +147,14 @@ public class CLIView implements View {
             public void run() {
                 canInput = true;
                 Timer t = new Timer();
-                t.schedule(tt, timer);
-                sendMessageToServer.ackDoABet();
+                t.schedule(tt, timer);                
                 clearScreen();
                 System.out.println("Time remaining " + (int) (timer / 1000) + " seconds");
 
                 while (canBet) {
                     try {
                         System.out.println("Avaliable credit: " + doABetMessage.playerState.cash + "$");
-                        System.out.println("Press [ 1 ] to bet");
+                        System.out.println("Press [ 1 ] to bet or [ 0 ] to exit");
                         inputOne();
                         clearScreen();
                         printBoard();
@@ -318,6 +317,9 @@ public class CLIView implements View {
             String inputString = input.nextLine();
             try {
                 intInputValue = Integer.parseInt(inputString);
+                if(intInputValue == 0){
+                    sendMessageToServer.sendResetConnection();
+                }
                 return intInputValue;
             } catch (NumberFormatException ne) {
                 System.out.println("Input is not a number, repeat");
