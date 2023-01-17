@@ -21,7 +21,6 @@ public class Server{
      */
     private static int PORT;
     private static final ArrayList<ClientConnectionHandler> ClientList = new ArrayList<>();
-    private static final int MAX_LOBBY_SIZE = 10;
 
     private final Object LOCKClientList = new Object();
     /**

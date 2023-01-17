@@ -1,15 +1,19 @@
 package com.casino.server.game;
 
 import java.io.IOException;
-import java.security.KeyStore.Entry;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import com.casino.comm.messages.DoABetMessage;
 import com.casino.comm.messages.Message;
+import com.casino.comm.messages.SendRouletteResultMessage;
 import com.casino.comm.messages.closemessage.ResetConnectionMessage;
+import com.casino.comm.player.Bet;
+import com.casino.comm.player.Box;
 import com.casino.comm.player.PlayerState;
 import com.casino.server.ClientConnectionHandler;
 
@@ -18,15 +22,30 @@ public class Game extends Thread{
     //private ArrayList<Player> players = new ArrayList<>();
     private HashMap<String, Player> players = new HashMap<>();
     private boolean running;
-    private final long TIME_SEC = 17;
+    private final long TIME_SEC = 15;
     private final long BET_TIME = TIME_SEC * 1000;
     private final long WAIT_FOR_BET = (TIME_SEC + 20) * 1000;
+    private int winningNumber = -1;
     private final Timer t = new Timer();  
-    private final TimerTask tt = new TimerTask() {
+    private final TimerTask waitForBet = new TimerTask() {
         @Override
         public void run() {
             System.out.println("Sending bet requests");
             sendBroadcast(new DoABetMessage());
+            try {
+                sleep(WAIT_FOR_BET);
+                estractNumber.start();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+    private final Thread estractNumber = new Thread() {
+        @Override
+        public void run() {
+            winningNumber = new Random().nextInt(37);
+            System.out.println("Winning number: " + winningNumber);
+            sendBroadcast(new SendRouletteResultMessage());
         }
     };
 
@@ -55,7 +74,7 @@ public class Game extends Thread{
 
     @Override
     public void run() {
-        t.scheduleAtFixedRate(tt, 0, WAIT_FOR_BET);
+        t.scheduleAtFixedRate(waitForBet, 0, WAIT_FOR_BET);
         while (running) {
             
         }
@@ -76,6 +95,11 @@ public class Game extends Thread{
                     doABetMessage.playerState = player.getValue().getPlayerState();
                     doABetMessage.EndTimer = System.currentTimeMillis() + BET_TIME;
                     player.getValue().getClientConnectionHandler().sendMessage(doABetMessage);
+                }else if(message instanceof SendRouletteResultMessage){
+                    SendRouletteResultMessage sendRouletteResultMessage = (SendRouletteResultMessage) message;
+                    sendRouletteResultMessage.winningNumber = winningNumber;
+                    sendRouletteResultMessage.winningCash = getWinningCash(player.getValue().getBets());
+                    player.getValue().getClientConnectionHandler().sendMessage(sendRouletteResultMessage);
                 }else player.getValue().getClientConnectionHandler().sendMessage(message);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -83,8 +107,41 @@ public class Game extends Thread{
         }
     }
 
+    private float getWinningCash(ArrayList<Bet> bets) {
+        float winningCash = 0.0f;
+        for (Bet bet : bets) {
+            if(winningNumber == 0) break;
+            int betNumber = bet.getBox().getNumber();
+            if(betNumber >= 0 && betNumber <= 36){
+                if(betNumber == winningNumber){
+                    winningCash += bet.getMoney() * 36;
+                }
+            }else if(betNumber == 37 && (winningNumber >= 1 && winningNumber <= 12)){
+                winningCash += bet.getMoney() * 3;
+            }else if(betNumber == 38 && (winningNumber >= 13 && winningNumber <= 24)){
+                winningCash += bet.getMoney() * 3;
+            }else if(betNumber == 39 && (winningNumber >= 25 && winningNumber <= 36)){
+                winningCash += bet.getMoney() * 3;
+            }else if(betNumber == 40 && (winningNumber >= 1 && winningNumber <= 18)){
+                winningCash += bet.getMoney() * 2;
+            }else if(betNumber == 41 && (winningNumber >= 19 && winningNumber <= 36)){
+                winningCash += bet.getMoney() * 2;
+            }else if(betNumber == 44 && (winningNumber % 2 == 0)){
+                winningCash += bet.getMoney() * 2;
+            }else if(betNumber == 45 && (winningNumber % 2 == 1)){
+                winningCash += bet.getMoney() * 2;
+            }else if(betNumber == 46 && (winningNumber % 3 == 0 && winningNumber != 0)){
+                winningCash += bet.getMoney() * 3;
+            }else if(betNumber == 47 && (winningNumber % 3 == 1)){
+                winningCash += bet.getMoney() * 3;
+            }else if(betNumber == 48 && (winningNumber % 3 == 2)){
+                winningCash += bet.getMoney() * 3;
+            }
+        }
+        return winningCash;
+    }
+
     public void updatePlayer(String id, DoABetMessage doABetMessage) {
-        PlayerState temp = doABetMessage.playerState;
-        PlayerState playerState = players.get(id).getPlayerState();
+        players.get(id).setBets(doABetMessage.bets);
     }
 }
