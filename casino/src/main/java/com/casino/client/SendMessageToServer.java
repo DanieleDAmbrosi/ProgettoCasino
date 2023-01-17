@@ -3,7 +3,6 @@ import java.util.ArrayList;
 
 import com.casino.comm.messages.*;
 import com.casino.comm.player.Bet;
-import com.casino.comm.player.PlayerState;;
 
 public class SendMessageToServer {
     private final ConnectionHandlerClientSide connectionHandlerClientSide;
