@@ -187,17 +187,6 @@ public class CLIView implements View {
         thread.start();
     }
 
-    private void inputJoinGame() {
-        Scanner input = new Scanner(System.in);
-        while (true) {
-            System.out.println("Press [ 1 ] to play?");
-            inputOne(input);
-            System.out.println("The game is starting...");
-            break;
-
-        }
-        sendMessageToServer.joinGame();
-    }
 
     private void inputOne(Scanner input) {
         try {
