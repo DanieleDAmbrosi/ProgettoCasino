@@ -46,4 +46,8 @@ public class VisitorServer {
 
     }
 
+    public void visit(CloseConnectionMessage closeConnectionMessage) {
+        game.removePlayer(id, closeConnectionMessage);
+    }
+
 }

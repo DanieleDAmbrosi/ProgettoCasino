@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.UUID;
 
 import com.casino.comm.messages.*;
+import com.casino.comm.messages.CloseConnectionMessage;
 import com.casino.comm.visitors.VisitorServer;
 import com.casino.server.game.Game;
 
@@ -48,6 +49,10 @@ public class ClientConnectionHandler extends Thread{
             }
             if(genericMessage instanceof ResetConnectionMessage) {
                 close((ResetConnectionMessage) genericMessage);
+                running = false;
+            }
+            if(genericMessage instanceof CloseConnectionMessage){
+                close(CloseConnectionMessage closeConnectionMessage);
                 running = false;
             }
             if(genericMessage != null) genericMessage.accept(visitorServer);

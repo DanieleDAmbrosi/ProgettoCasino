@@ -18,10 +18,6 @@ public class VisitorClient {
         this.view = view;
     }
 
-    public void visit(Message message) {
-        // view.doABet();
-    }
-
     public void visit(ResetConnectionMessage resetConnectionMessage) {
         view.resetConnection();
     }
@@ -31,6 +27,12 @@ public class VisitorClient {
     }
     public void visit(SendRouletteResultMessage sendRouletteResultMessage){
         view.showResults(sendRouletteResultMessage.winningNumber);
+    }
+
+    public void visit(JoinGameMessage joinGameMessage) {
+    }
+
+    public void visit(CloseConnectionMessage closeConnectionMessage) {
     }
 
 
