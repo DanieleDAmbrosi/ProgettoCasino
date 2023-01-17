@@ -1,4 +1,5 @@
 package com.casino.client;
+import com.casino.comm.messages.DoABetMessage;
 import com.casino.comm.player.PlayerState;
 
 /**
@@ -23,7 +24,7 @@ public interface View {
      * Ask to user to do a bet
      * 
      */
-    void doABet(PlayerState playerState, long endTimer);
+    void doABet(DoABetMessage doABetMessage);
 
     /**
      * Ask the user if he want to start the game

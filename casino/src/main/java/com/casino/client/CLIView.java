@@ -123,11 +123,11 @@ public class CLIView implements View {
 
     }
 
-    public void doABet(PlayerState playerState, long endTimer) {
+    public void doABet(DoABetMessage doABetMessage) {
 
         Thread threadDoABet = new Thread() {
 
-            long timer = endTimer - System.currentTimeMillis();
+            long timer = doABetMessage.EndTimer - System.currentTimeMillis();
             Scanner input = new Scanner(System.in);
             boolean canBet = true;
 
@@ -135,7 +135,7 @@ public class CLIView implements View {
                 @Override
                 public void run() {
                     System.out.println("Time's up!");
-                    sendMessageToServer.sendBet(playerState);
+                    sendMessageToServer.sendBet(doABetMessage.bets);
                     // input.close();
                     canBet = false;
                     canInput = false;
@@ -154,15 +154,15 @@ public class CLIView implements View {
 
                 while (canBet) {
                     try {
-                        System.out.println("Avaliable credit: " + playerState.cash + "$");
+                        System.out.println("Avaliable credit: " + doABetMessage.playerState.cash + "$");
                         System.out.println("Press [ 1 ] to bet");
                         inputOne();
                         clearScreen();
                         printBoard();
                         System.out.println("Do a bet:");
-                        if (playerState.addBet(inputABet()) == false) {
+                        if (doABetMessage.addBet(inputABet()) == false) {
                             System.out.println("Insufficient credit!");
-                            System.out.println("Avaliable credit: " + playerState.cash + "$");
+                            System.out.println("Avaliable credit: " + doABetMessage.playerState.cash + "$");
                         } else {
                             System.out.println("Successful bet");
                         }

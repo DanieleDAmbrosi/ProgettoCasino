@@ -2,6 +2,7 @@ package com.casino.client.GUI;
 
 import com.casino.client.SendMessageToServer;
 import com.casino.client.View;
+import com.casino.comm.messages.DoABetMessage;
 import com.casino.comm.player.PlayerState;
 
 import javafx.animation.RotateTransition;
@@ -418,7 +419,7 @@ public class GUIView extends javax.swing.JFrame implements WindowListener, View 
 }
 
     @Override
-    public void doABet(PlayerState playerState, long endTimer) {
+    public void doABet(DoABetMessage doABetMessage) {
         // TODO Auto-generated method stub
         
     }
