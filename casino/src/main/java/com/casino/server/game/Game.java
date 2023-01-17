@@ -33,7 +33,7 @@ public class Game extends Thread{
             System.out.println("Sending bet requests");
             sendBroadcast(new DoABetMessage());
             try {
-                sleep(WAIT_FOR_BET);
+                sleep(WAIT_FOR_BET + 2 * 1000);
                 estractNumber.start();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -95,6 +95,7 @@ public class Game extends Thread{
                     doABetMessage.playerState = player.getValue().getPlayerState();
                     doABetMessage.EndTimer = System.currentTimeMillis() + BET_TIME;
                     player.getValue().getClientConnectionHandler().sendMessage(doABetMessage);
+                    System.out.println("Sending do a bet message");
                 }else if(message instanceof SendRouletteResultMessage){
                     SendRouletteResultMessage sendRouletteResultMessage = (SendRouletteResultMessage) message;
                     sendRouletteResultMessage.winningNumber = winningNumber;
