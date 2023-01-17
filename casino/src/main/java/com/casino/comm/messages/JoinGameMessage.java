@@ -14,6 +14,6 @@ public class JoinGameMessage extends Message{
 
     @Override
     public void accept(VisitorClient visitor) {
-        throw new UnsupportedOperationException();        
+        throw new UnsupportedOperationException();
     }
 }
