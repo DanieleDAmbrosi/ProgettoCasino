@@ -1,0 +1,1 @@
+java -jar .\target\server_casino.jar -127.10.0.1 address -1234 port -CLI view
