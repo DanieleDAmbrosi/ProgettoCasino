@@ -17,7 +17,6 @@ public class SendRouletteResultMessage extends Message{
     @Override
     public void accept(VisitorClient visitor) {
         visitor.visit(this);
-        
     }
     
 }

@@ -7,9 +7,6 @@ import java.util.*;
 import com.casino.comm.messages.*;
 import com.casino.comm.player.Bet;
 import com.casino.comm.player.Box;
-import com.casino.comm.player.PlayerState;
-import com.casino.comm.utility.*;
-import java.awt.event.*;
 
 public class CLIView implements View {
 

@@ -13,8 +13,6 @@ import com.casino.comm.messages.Message;
 import com.casino.comm.messages.SendRouletteResultMessage;
 import com.casino.comm.messages.closemessage.ResetConnectionMessage;
 import com.casino.comm.player.Bet;
-import com.casino.comm.player.Box;
-import com.casino.comm.player.PlayerState;
 import com.casino.server.ClientConnectionHandler;
 
 public class Game extends Thread {
@@ -66,6 +64,7 @@ public class Game extends Thread {
 
     public void addPlayer(ClientConnectionHandler client, String name, String id) {       
         Player player = new Player(client, name);
+        player.setPlayerStateCash(1000);
         players.put(id, player);
         System.out.println("Player " + player + " joined the lobby");
         System.out.println("Name: " + player.getName());

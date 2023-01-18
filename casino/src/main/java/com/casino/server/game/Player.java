@@ -8,7 +8,7 @@ import com.casino.server.ClientConnectionHandler;
 
 public class Player {
     private final ClientConnectionHandler clientConnectionHandler;
-    private final PlayerState playerState;
+    private PlayerState playerState;
     private final String name;
     private ArrayList<Bet> bets = new ArrayList<>();
 
