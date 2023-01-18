@@ -16,9 +16,7 @@ public class SendMessageToServer {
         connectionHandlerClientSide.sendMessage(message);
     }
     
-    public void sendBet(ArrayList<Bet> bets){
-        DoABetMessage doABetMessage = new DoABetMessage();
-        doABetMessage.bets = bets;
+    public void sendBet(DoABetMessage doABetMessage){        
         //doABetMessage.playerState.playing = true;
         connectionHandlerClientSide.sendMessage(doABetMessage);
     }

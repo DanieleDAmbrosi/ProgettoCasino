@@ -32,17 +32,19 @@ public class Game extends Thread {
         @Override
         public void run() {
             timerSendWinningNumberBroadcast.purge();
-            System.out.println("Sending bet requests");
-            sendBroadcast(new DoABetMessage());
-            timerSendWinningNumberBroadcast.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    System.out.println("Sending winning number timer task");
-                    winningNumber = new Random().nextInt(37);
-                    System.out.println("Winning number: " + winningNumber);
-                    sendBroadcast(new SendRouletteResultMessage());
-                }
-            }, BET_TIME + 5000);
+            if (players.size() > 0) {
+                System.out.println("Sending bet requests");
+                sendBroadcast(new DoABetMessage());
+                timerSendWinningNumberBroadcast.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        System.out.println("Sending winning number timer task");
+                        winningNumber = new Random().nextInt(37);
+                        System.out.println("Winning number: " + winningNumber);
+                        sendBroadcast(new SendRouletteResultMessage());
+                    }
+                }, BET_TIME + 5000);
+            }
         }
     };
 
@@ -62,7 +64,7 @@ public class Game extends Thread {
         running = true;
     }
 
-    public void addPlayer(ClientConnectionHandler client, String name, String id) {       
+    public void addPlayer(ClientConnectionHandler client, String name, String id) {
         Player player = new Player(client, name);
         player.setPlayerStateCash(1000);
         players.put(id, player);
@@ -166,7 +168,7 @@ public class Game extends Thread {
         players.get(id).setPlaying(true);
         for (Bet bet : doABetMessage.bets) {
             System.out.println(
-                    players.get(id).getName() + " ha puntato " + bet.getMoney() + "$ su " + bet.getBox().getNumber());
+                    players.get(id).getName() + " ha puntato " + bet.getMoney() + "$ su " + bet.getBox().getNumber() + " crediti disponibili: " + players.get(id).getPlayerState().cash);
         }
 
     }

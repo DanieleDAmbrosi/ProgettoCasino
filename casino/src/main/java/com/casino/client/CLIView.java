@@ -1,6 +1,7 @@
 package com.casino.client;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.*;
 
@@ -11,7 +12,7 @@ import com.casino.comm.player.Box;
 public class CLIView implements View {
 
     private SendMessageToServer sendMessageToServer;
-    private final Scanner input = new Scanner(System.in);
+    private Scanner input = new Scanner(System.in);
     private boolean canInput = true;
 
     /**
@@ -121,48 +122,58 @@ public class CLIView implements View {
     }
 
     public void doABet(DoABetMessage doABetMessage) {
-        canInput = true;
         Thread threadDoABet = new Thread() {
 
             long timer = doABetMessage.EndTimer - System.currentTimeMillis();
-            boolean canBet = true;
+            //boolean canBet = true;
+            Timer t = new Timer();
             TimerTask tt = new TimerTask() {
                 @Override
                 public void run() {
                     System.out.println("Time's up!");
-                    sendMessageToServer.sendBet(doABetMessage.bets);
-                    canBet = false;
-                    canInput = false;
-
+                    sendMessageToServer.sendBet(doABetMessage);
+                    //canBet = false;
+                    canInput = false; 
+                    //input.close();
+                    
+                                       
+                    t.cancel();
+                    currentThread().stop();
                 }
             };
 
             @Override
             public void run() {
+                //input = new Scanner(System.in);
                 canInput = true;
-                Timer t = new Timer();
+                //canBet = true;                
                 t.schedule(tt, timer);
                 clearScreen();
-                System.out.println("Time remaining " + Math.round(timer / 1000) + " seconds");                
-                while (canBet) {
+                System.out.println("Time remaining " + Math.round(timer / 1000) + " seconds");
+                while (canInput) {
                     try {
                         System.out.println("Avaliable credit: " + doABetMessage.playerState.cash + "$");
                         System.out.println("Press [ 1 ] to bet or [ 0 ] to exit");
+                        //if(canInput==false) throw new Exception(); 
                         inputOne();
+                        //if(canInput==false) throw new Exception();
                         clearScreen();
                         printBoard();
                         System.out.println("Do a bet:");
+                        //if(canInput==false) throw new Exception();
                         if (doABetMessage.addBet(inputABet()) == false) {
+                            //if(canInput==false) throw new Exception();
                             System.out.println("Insufficient credit!");
                             System.out.println("Avaliable credit: " + doABetMessage.playerState.cash + "$");
                         } else {
                             System.out.println("Successful bet");
+                            //if(canInput==false) throw new Exception();
                         }
                     } catch (Exception e) {
-                        canBet = false;
+                        canInput = false;
                     }
                 }
-                t.cancel();                
+                t.cancel();
             }
 
         };
@@ -312,7 +323,7 @@ public class CLIView implements View {
             try {
                 intInputValue = Integer.parseInt(inputString);
                 if (intInputValue == 0) {
-                    sendMessageToServer.sendResetConnection();                    
+                    sendMessageToServer.sendResetConnection();
                 }
                 return intInputValue;
             } catch (NumberFormatException ne) {
